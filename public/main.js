@@ -41,6 +41,7 @@
 								event.preventDefault();
 
 								loginPage.hidden = true;
+								openRestPage("Sign Up", "/signup");
 								signupPage.hidden = false;
 							},
 						}
@@ -77,6 +78,7 @@
 			chat.subscribe();
 
 			loginPage.hidden = true;
+			openRestPage("Chat", "/chat");
 			chatPage.hidden = false;
 		});
 
@@ -116,6 +118,7 @@
 								event.preventDefault();
 
 								signupPage.hidden = true;
+								openRestPage("Login", "/");
 								loginPage.hidden = false;
 							},
 						}
@@ -148,6 +151,7 @@
 			chat.subscribe();
 
 			signupPage.hidden = true;
+			openRestPage("Chat", "/chat");
 			chatPage.hidden = false;
 		});
 
