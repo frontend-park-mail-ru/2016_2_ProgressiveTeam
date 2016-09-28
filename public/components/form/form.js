@@ -1,36 +1,44 @@
 (function () {
 	'use strict';
-	
+
 	// import
 	let Button = window.Button;
-	
+
 	class Form {
-		
+
 		/**
 		 * Конструктор класса Form
  		 */
 		constructor (options = { data: {} }) {
 			this.data = options.data;
 			this.el = options.el;
-			
+
 			this.render();
 		}
 
-		render () { 
+		render () {
 			this._updateHtml()
 			this._installControls();
 		}
-		
+
 		/**
 		 * Вернуть поля формы
 		 * @return {string}
 		 */
 		_getFields () {
 			let { fields = [] } = this.data;
-			
-			return fields.map(field => { return `<input type="text" name="${field.name}">` }).join(' ')
+
+			return fields.map(field => {
+				let attrs = Object.keys(field.attrs).map(attr => {
+					return `${attr}="${field.attrs[attr]}"`;
+				}).join(' ');
+				return `
+					<label for="id_${field.attrs.name}">${typeof field.label == 'undefined' ? '' : field.label}</label>
+					<input id="id_${field.attrs.name}" ${attrs} />
+				`
+			}).join(' ')
 		}
-		
+
 		/**
 		 * Обновить html компонента
 		 */
@@ -46,19 +54,19 @@
 				<form>
 			`;
 		}
-		
+
 		/**
 		 * Вставить управляющие элементы в форму
 		 */
 		_installControls () {
 			let { controls = [] } = this.data;
-			
+
 			controls.forEach(data => {
-				let control = new Button({text: data.text}).render();
+				let control = new Button(data).render();
 				this.el.querySelector('.js-controls').appendChild(control.el);
 			});
 		}
-		
+
 		/**
 		 * Подписка на событие
 		 * @param {string} type - имя события
@@ -67,7 +75,7 @@
 		on (type, callback) {
 			this.el.addEventListener(type, callback);
 		}
-		
+
 		/**
 		 * Взять данные формы
 		 * @return {object}
@@ -76,7 +84,7 @@
 			let form = this.el.querySelector('form');
 			let elements = form.elements;
 			let fields = {};
-			
+
 			Object.keys(elements).forEach(element => {
 				let name = elements[element].name;
 				let value = elements[element].value;
@@ -92,7 +100,7 @@
 		}
 
 	}
-	
+
 	//export
 	window.Form = Form;
 })();
