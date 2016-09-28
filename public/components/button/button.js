@@ -20,7 +20,7 @@
 			this.setAttrs(this.attrs);
 			return this;
 		}
-		
+
 		toString () {
 			return this.el.outerHTML;
 		}
