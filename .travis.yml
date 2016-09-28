@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+- 6
+deploy:
+  provider: heroku
+  api_key:
+    secure: b20504d5-93a7-45fc-9218-79be8af556af
+  app: progressive-team
