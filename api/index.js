@@ -2,8 +2,8 @@ module.exports = {
 	"swagger": "2.0",
 	"info": {
 		"version": "0.0.3",
-		"title": "TechnoChat API",
-		"description": "**ТехноЧат**"
+		"title": "Fantasy battle online API",
+		"description": "Фэнтези батл онлайн - это не просто игра..."
 	},
 	"basePath": "/api",
 	"schemes": ["http"],
