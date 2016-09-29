@@ -1,3 +1,9 @@
 extends: google
 env:
   browser: true
+globals:
+  technolibs: true
+rules:
+  indent:
+    - 2
+    - 4
