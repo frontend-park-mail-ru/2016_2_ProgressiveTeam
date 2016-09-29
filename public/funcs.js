@@ -1,16 +1,17 @@
 'use strict';
 
 /**
- * Very simple func
- * @name hello
- * @function
- * @see http://artsiom.mezin.eu/technofront/
+ * @param {string} name Name to say hello
  * @return {string} Hello name
  */
 function hello(name) {
     return `Привет, ${name}`;
 }
 
+/**
+ * @param {integer} n Number
+ * @return {string} Plural string returns
+ */
 function plural(n) {
     switch (n) {
     case 0:
@@ -29,6 +30,10 @@ function plural(n) {
     }
 }
 
+/**
+ * @param {string} str To filter
+ * @return {string} Filtered result
+ */
 function filter(str) {
     let rules = window.rules || [];
 

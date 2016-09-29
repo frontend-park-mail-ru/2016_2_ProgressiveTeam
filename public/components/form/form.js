@@ -45,7 +45,7 @@
                 return `
                     <div class="field">
     					<label for="id_${field.attrs.name}">
-                        ${typeof field.label === 'undefined' ? '' : field.label}
+                            ${typeof field.label === 'undefined' ? '' : field.label}
                         </label>
     					<input id="id_${field.attrs.name}" ${attrs} />
                     </div>
@@ -139,7 +139,6 @@
 
                 if (typeof this.validators[name] !== 'undefined') {
                     let error = this.validators[name](value);
-                    console.log(value);
                     if (typeof error !== 'undefined') {
                         valid = false;
                         this._showError(elements[element].parentNode, error);

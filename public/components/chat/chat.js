@@ -78,6 +78,7 @@
             };
 
             let result = technolibs.request('/api/messages', data);
+            console.log(result);
             form.reset();
         }
 
@@ -86,7 +87,10 @@
             messages.innerHTML = '';
 
             items.forEach(item => {
-                let message = this.createMessage(item, item.email === this.data.email);
+                let message = this.createMessage(
+                    item,
+                    item.email === this.data.email
+                );
                 messages.appendChild(message);
             });
             messages.scrollTop = messages.scrollHeight;
@@ -108,7 +112,7 @@
             this.el.addEventListener(type, callback);
         }
 
-        // TODO вернуть данные формы
+        // @TODO вернуть данные формы
         getFormData() {
             return {
                 key: 'value'
