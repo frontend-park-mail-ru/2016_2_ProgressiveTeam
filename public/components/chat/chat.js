@@ -1,9 +1,6 @@
 (function() {
     'use strict';
 
-    // import
-    let Button = window.Button;
-
     class Chat {
 
         /**
@@ -26,6 +23,7 @@
         /**
          * Обновить данные компонента
          * @param {object} data - данные компонента
+         * @return {object} This is returning
          */
         set(data) {
             this.data = data;
@@ -75,7 +73,7 @@
 
         onChat(form) {
             let data = {
-                message: form.elements['message'].value,
+                message: form.elements.message.value,
                 email: this.data.email
             };
 
@@ -100,17 +98,17 @@
             });
 
             this.el.querySelector('.js-chat-form')
-                .addEventListener('submit', (event) => {
+                .addEventListener('submit', event => {
                     event.preventDefault();
                     this.onChat(event.target);
-                })
+                });
         }
 
         on(type, callback) {
             this.el.addEventListener(type, callback);
         }
 
-        //TODO вернуть данные формы
+        // TODO вернуть данные формы
         getFormData() {
             return {
                 key: 'value'
@@ -122,6 +120,6 @@
         }
     }
 
-    //export
+    // export
     window.Chat = Chat;
 })();

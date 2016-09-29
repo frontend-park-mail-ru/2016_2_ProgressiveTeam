@@ -6,20 +6,20 @@
             this.text = options.text;
             this.attrs = options.attrs || [];
             this.classes = options.classes || [];
-            this.event_data = options.on;
+            this.eventData = options.on;
             this.el = document.createElement('button');
         }
 
         setClasses(classes) {
-            classes.forEach(class_name => {
-                this.el.classList.add(class_name);
-            })
+            classes.forEach(className => {
+                this.el.classList.add(className);
+            });
         }
 
         setAttrs(attrs) {
             Object.keys(attrs).forEach(name => {
                 this.el.setAttribute(name, attrs[name]);
-            })
+            });
         }
 
         render() {
@@ -27,8 +27,8 @@
             this.el.classList.add('button');
             this.setClasses(this.classes);
             this.setAttrs(this.attrs);
-            if (this.event_data) {
-                this.on(this.event_data.type, this.event_data.callback);
+            if (this.eventData) {
+                this.on(this.eventData.type, this.eventData.callback);
             }
             return this;
         }
@@ -42,7 +42,6 @@
         }
     }
 
-    //export
+    // export
     window.Button = Button;
-
 })();
