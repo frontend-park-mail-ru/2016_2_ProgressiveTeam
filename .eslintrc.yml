@@ -1,0 +1,13 @@
+extends: google
+env:
+  browser: true
+globals:
+  technolibs: true
+rules:
+  indent:
+    - 2
+    - 4
+  max-len:
+    - 2
+    - 80
+    - ignoreTemplateLiterals: true
