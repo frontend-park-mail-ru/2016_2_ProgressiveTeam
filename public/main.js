@@ -11,6 +11,8 @@
         let signupPage = document.querySelector('.js-signup');
         let chatPage = document.querySelector('.js-chat');
 
+        let ip = 'http://172.16.49.182:8080';
+
         let user = {};
 
         let loginForm = new Form({
@@ -20,7 +22,7 @@
                 fields: [{
                     label: 'Login',
                     attrs: {
-                        name: 'user',
+                        name: 'login',
                         type: 'text'
                     },
                     validate: function(val) {
@@ -75,7 +77,16 @@
             event.preventDefault();
 
             let formData = loginForm.getFormData();
-            let response = technolibs.request('/api/session', formData);
+            let response = technolibs.request(ip + '/api/session', formData);
+
+            console.log(response);
+            response = JSON.parse(response);
+
+            if (response.error) {
+                console.log(response);
+                loginForm.setError(response.error);
+                return;
+            }
 
             user = {
                 id: response.id,
@@ -100,7 +111,7 @@
                 fields: [{
                     label: 'Login',
                     attrs: {
-                        name: 'user',
+                        name: 'login',
                         type: 'text'
                     },
                     validate: function(val) {
@@ -118,8 +129,12 @@
                         if (typeof val === 'undefined' || val === '') {
                             return 'Email is required';
                         }
-                        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                        if (!re.test(val)) {
+
+                        /*eslint-disable*/
+                        let EMAIL_RE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        /*eslint-enable*/
+
+                        if (!EMAIL_RE.test(val)) {
                             return 'Enter correct email';
                         }
                     }
@@ -163,7 +178,13 @@
             event.preventDefault();
 
             let formData = signupForm.getFormData();
-            let response = technolibs.request('/api/user', formData);
+            let response = technolibs.request(ip + '/api/user', formData);
+
+            if (typeof response.error !== 'undefined') {
+                console.log(response);
+                signupForm.setError(response.error);
+                return;
+            }
 
             user = {
                 id: response.id,

@@ -151,6 +151,17 @@
             return valid;
         }
 
+        removeError() {
+            this.el.removeChild(this.el.lastChild);
+        }
+
+        setError(msg) {
+            var msgElem = document.createElement('span');
+            msgElem.className = "error-message";
+            msgElem.innerHTML = msg;
+            this.el.insertBefore(msgElem, this.el.firstChild);
+        }
+
         /**
          * Взять данные формы
          * @return {object} Возвращает словарь значений

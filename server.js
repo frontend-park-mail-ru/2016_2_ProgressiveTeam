@@ -3,6 +3,8 @@ let parser = require('body-parser');
 let app = express();
 let technoDoc = require('techno-gendoc');
 
+let ip = 'http://172.16.49.182:8080';
+
 app.use('/', express.static('public', {
     maxAge: 1
 }));
