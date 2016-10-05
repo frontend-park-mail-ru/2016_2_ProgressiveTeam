@@ -1,32 +1,21 @@
 module.exports = {
     type: "object",
-    description: "Пользователи",
+    description: "Данные пользователя",
 
     properties: {
-        id: {
-            description: "Id авторизационной сессии",
-            type: "integer",
-            minimum: 0
+        login: {
+            description: "Логин",
+            type: "string",
+            minLength: 1,
+            maxLength: 50
         },
         email: {
-            description: "Email пользователя",
+            description: "Email",
             type: "string",
             minLength: 6,
-            maxLength: 50
-        },
-        login: {
-            description: "Логин пользователя",
-            type: "string",
-            minLength: 1,
-            maxLength: 50
-        },
-        password: {
-            description: "Пароль пользователя",
-            type: "string",
-            minLength: 1,
             maxLength: 50
         }
     },
 
-    required: ["id", "email", "login", "password"]
+    required: ["email", "login"]
 };
