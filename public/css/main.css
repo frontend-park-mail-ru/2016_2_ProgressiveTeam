@@ -193,3 +193,9 @@ div.error input {
 span.error-message {
     color: red;
 }
+
+#logout_btn {
+  float: right;
+  border: 1px solid red;
+  background-color: red;
+}
