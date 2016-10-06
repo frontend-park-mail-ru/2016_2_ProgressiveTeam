@@ -30,6 +30,7 @@
                 } else {
                     loginPage.hidden = false;
                     openRestPage("login", "/");
+                    document.getElementById('logout_btn_block').hidden = true;
                     chatPage.hidden = true;
                     signupPage.hidden = true;
                 }
@@ -37,6 +38,7 @@
                 loginForm.setError('Error was occured in request');
             });
         })
+        document.getElementById('logout_btn_block').hidden = true;
 
         let user = {};
 
@@ -146,6 +148,7 @@
 
                     loginPage.hidden = true;
                     openRestPage("Chat", "/chat");
+                    document.getElementById('logout_btn_block').hidden = false;
                     chatPage.hidden = false;
                 }
             }).catch(alert => {
@@ -261,6 +264,7 @@
 
                     signupPage.hidden = true;
                     openRestPage("Chat", "/chat");
+                    document.getElementById('logout_btn_block').hidden = false;
                     chatPage.hidden = false;
                 }
             }).catch(alert => {
