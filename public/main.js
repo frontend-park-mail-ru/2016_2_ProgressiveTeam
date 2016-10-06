@@ -11,7 +11,7 @@
         let signupPage = document.querySelector('.js-signup');
         let chatPage = document.querySelector('.js-chat');
 
-        let ip = 'http://172.16.49.182:8080';
+        let ip = 'https://progressive-team-backend.herokuapp.com';
 
         let user = {};
 
@@ -43,10 +43,21 @@
                     }
                 }],
                 controls: [{
+                    text: 'login',
+                    attrs: {
+                        type: 'submit'
+                    },
+                    classes: [
+                        'button-primary'
+                    ]
+                }, {
                     text: 'sign up',
                     attrs: {
                         type: 'clear'
                     },
+                    classes: [
+                        'button-left'
+                    ],
                     on: {
                         type: 'click',
                         callback: event => {
@@ -57,14 +68,6 @@
                             signupPage.hidden = false;
                         }
                     }
-                }, {
-                    text: 'login',
-                    attrs: {
-                        type: 'submit'
-                    },
-                    classes: [
-                        'button-primary'
-                    ]
                 }]
             }
         });
@@ -79,11 +82,11 @@
             let formData = loginForm.getFormData();
             let response = technolibs.request(ip + '/api/session', formData);
 
-            console.log(response);
             response = JSON.parse(response);
 
+            console.log(response);
+
             if (response.error) {
-                console.log(response);
                 loginForm.setError(response.error);
                 return;
             }
@@ -151,7 +154,18 @@
                     }
                 }],
                 controls: [{
+                    text: 'sign up',
+                    attrs: {
+                        type: 'submit'
+                    },
+                    classes: [
+                        'button-primary'
+                    ]
+                }, {
                     text: 'back',
+                    classes: [
+                        'button-left'
+                    ],
                     on: {
                         type: 'click',
                         callback: event => {
@@ -162,14 +176,6 @@
                             loginPage.hidden = false;
                         }
                     }
-                }, {
-                    text: 'sign up',
-                    attrs: {
-                        type: 'submit'
-                    },
-                    classes: [
-                        'button-primary'
-                    ]
                 }]
             }
         });

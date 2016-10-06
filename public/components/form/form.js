@@ -156,10 +156,11 @@
         }
 
         setError(msg) {
-            var msgElem = document.createElement('span');
+            let msgElem = document.createElement('span');
             msgElem.className = "error-message";
             msgElem.innerHTML = msg;
-            this.el.insertBefore(msgElem, this.el.firstChild);
+            let form = this.el.querySelector('form');
+            form.insertBefore(msgElem, form.childNodes[3]);
         }
 
         /**

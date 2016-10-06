@@ -22,3 +22,6 @@
 	background-color: #4dca62;
     border: .1rem solid #4dca62;
 }
+.button-left {
+  float: left;
+}
