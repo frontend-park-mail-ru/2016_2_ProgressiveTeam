@@ -1,3 +1,5 @@
+
+
 (function() {
     'use strict';
 
@@ -10,10 +12,49 @@
         let loginPage = document.querySelector('.js-login');
         let signupPage = document.querySelector('.js-signup');
         let chatPage = document.querySelector('.js-chat');
-
         let ip = 'https://progressive-team-backend.herokuapp.com';
 
+        document.getElementById('logout_btn').addEventListener('click', event => {
+          let promise = fetch(ip + '/api/session', {
+              method: 'DELETE',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              mode: 'cors',
+              credentials: 'include',
+              cache: 'no-cache'
+          }).then(response => {
+              return response.json();
+          }).then(data => {
+              console.log(data);
+              if (data.error) {
+              } else {
+                  loginPage.hidden = false;
+                  openRestPage("login", "/");
+                  chatPage.hidden = true;
+                  signupPage.hidden = true;
+              }
+          }).catch(alert => {
+              loginForm.setError('Error was occured in request');
+          });
+        })
+
+        function logout() {
+
+        }
+
         let user = {};
+
+        let errors = {
+            0: 'Empty fields in request',
+            1: 'Auth required',
+            2: 'Auth failed',
+            3: 'User already exist',
+            4: 'User not exist',
+            5: 'Already authorized'
+        }
+
 
         let loginForm = new Form({
             el: document.createElement('div'),
@@ -80,31 +121,53 @@
             event.preventDefault();
 
             let formData = loginForm.getFormData();
-            let response = technolibs.request(ip + '/api/session', formData);
 
-            response = JSON.parse(response);
+            let promise = fetch(ip + '/api/session', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-cache'
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                if (data.error) {
+                    loginForm.setError(errors[data.error]);
+                } else {
+                    user = {
+                        id: data.id,
+                        username: formData.user,
+                        email: formData.email
+                    };
 
-            console.log(response);
+                    chat.set(user)
+                        .render();
 
-            if (response.error) {
-                loginForm.setError(response.error);
+                    chat.subscribe();
+
+                    loginPage.hidden = true;
+                    openRestPage("Chat", "/chat");
+                    chatPage.hidden = false;
+                }
+            }).catch(alert => {
+                loginForm.setError('Error was occured in request');
+            });
+
+            /*
+            let body = response.json();
+
+            if (response.status != 200) {
+                loginForm.setError(response.statusText);
                 return;
             }
 
-            user = {
-                id: response.id,
-                username: formData.user,
-                email: formData.email
-            };
 
-            chat.set(user)
-                .render();
-
-            chat.subscribe();
-
-            loginPage.hidden = true;
-            openRestPage("Chat", "/chat");
-            chatPage.hidden = false;
+            */
         });
 
         let signupForm = new Form({
@@ -184,28 +247,42 @@
             event.preventDefault();
 
             let formData = signupForm.getFormData();
-            let response = technolibs.request(ip + '/api/user', formData);
 
-            if (typeof response.error !== 'undefined') {
-                console.log(response);
-                signupForm.setError(response.error);
-                return;
-            }
+            let promise = fetch(ip + '/api/user', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                credentials: 'include',
+                cache: 'no-cache'
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                if (data.error) {
+                    signupPage.setError(errors[data.error]);
+                } else {
+                    user = {
+                        id: response.id,
+                        username: formData.user,
+                        email: formData.email
+                    };
 
-            user = {
-                id: response.id,
-                username: formData.user,
-                email: formData.email
-            };
+                    chat.set(user)
+                        .render();
 
-            chat.set(user)
-                .render();
+                    chat.subscribe();
 
-            chat.subscribe();
-
-            signupPage.hidden = true;
-            openRestPage("Chat", "/chat");
-            chatPage.hidden = false;
+                    signupPage.hidden = true;
+                    openRestPage("Chat", "/chat");
+                    chatPage.hidden = false;
+                }
+            }).catch(alert => {
+                loginForm.setError('Error was occured in request');
+            });
         });
 
         loginPage.appendChild(loginForm.el);

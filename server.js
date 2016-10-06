@@ -33,7 +33,6 @@ app.get('/api/messages', function(req, res) {
     res.send([
         technoDoc.mock(require('./api/scheme/Message')),
         technoDoc.mock(require('./api/scheme/Message')),
-        technoDoc.mock(require('./api/scheme/Message')),
         technoDoc.mock(require('./api/scheme/Message'))
     ]);
 });
