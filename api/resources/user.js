@@ -5,26 +5,29 @@ exports.post = {
     parameters: [{
         name: "email",
         description: "Почта пользователя",
-        type: "string"
+        type: "string",
+        required: true
     }, {
         name: "login",
         description: "Логин пользователя",
-        type: "string"
+        type: "string",
+        required: true
     }, {
         name: "password",
         description: "Пароль пользователя",
-        type: "string"
+        type: "string",
+        required: true
     }],
 
     responses: {
         200: {
-            description: "ID сессии",
-            schema: {
-                $ref: "#/definitions/Session"
-            }
+            description: "Пользователь создан",
         },
-        403: {
-            description: "Ошибка при выполнении запроса"
+        400: {
+            description: "Ошибка при выполнении запроса",
+            schema: {
+                $ref: "#/definitions/Error"
+            }
         }
     }
 };
@@ -33,9 +36,9 @@ exports.get = {
     description: "Метод получения информации о пользователе",
 
     parameters: [{
-        name: "id",
-        description: "ID сессии",
-        type: "integer",
+        name: "Login",
+        description: "Логин пользователя",
+        type: "string",
         in: "path",
         required: true
     }],
@@ -47,53 +50,28 @@ exports.get = {
                 $ref: "#/definitions/User"
             }
         },
-        401: {
-            description: "Ошибка при выполнении запроса"
-        }
-    }
-};
-exports.put = {
-    tags: ["user"],
-    description: "Метод изменения данных пользователя",
-
-    parameters: [{
-        name: "id",
-        description: "Id сессии",
-        type: "integer",
-        in: "path",
-        required: true
-    }],
-
-    responses: {
-        200: {
-            description: "Id  сессии",
+        400: {
+            description: "Ошибка при выполнении запроса",
             schema: {
-                $ref: "#/definitions/Session"
+                $ref: "#/definitions/Error"
             }
-        },
-        403: {
-            description: "Ошибка при выполнении запроса"
         }
     }
 };
+
 exports.delete = {
     tags: ["user"],
     description: "Метод удаления пользователя",
 
-    parameters: [{
-        name: "id",
-        description: "Id сессии",
-        type: "integer",
-        in: "path",
-        required: true
-    }],
-
     responses: {
         200: {
-            description: "Успешный запрос"
+            description: "Удаление выполнено"
         },
-        403: {
-            description: "Ошибка при выполнении запроса"
+        400: {
+            description: "Ошибка при выполнении запроса",
+            schema: {
+                $ref: "#/definitions/Error"
+            }
         }
     }
 };
