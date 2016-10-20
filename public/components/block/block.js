@@ -24,7 +24,7 @@
 
 		setClasses(classes = []) {
 			let class_str = '';
-			console.log(classes);
+
 			classes.forEach(class_name => {
 				class_str += class_name;
 			});

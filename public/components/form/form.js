@@ -93,7 +93,7 @@
 
                 if (typeof this.validators[name] !== 'undefined') {
                     let error = this.validators[name](value);
-                    console.log(error);
+
                     if (typeof error !== 'undefined') {
                         valid = false;
                         this._showError(elements[element].parentNode, error);
