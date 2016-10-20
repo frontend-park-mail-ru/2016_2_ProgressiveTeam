@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     const View = window.View;
@@ -27,7 +27,6 @@
             this.show();
         }
     }
-
 
     // export
     window.ChatView = ChatView;

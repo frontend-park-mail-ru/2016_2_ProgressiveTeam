@@ -1,26 +1,58 @@
 (function () {
-	'use strict';
+    'use strict';
 
-	const View = window.View;
-	const Form = window.Form;
+    const View = window.View;
+    const Form = window.Form;
 
-	class MainView extends View {
-		constructor(options = {}) {
-			super(options);
-			this._el = document.querySelector('.js-login');
-			this.hide();
+    class MainView extends View {
+        constructor(options = {}) {
+            super(options);
+            this._el = document.querySelector('.js-login');
+            this.hide();
+        }
 
-			// TODO: дописать реализацию
+        init(options = {}) {
 
-		}
+            this._component = new Form({
+                el: this._el,
+                data: {
+                    title: 'Login',
+                    fields: [{
+                        label: 'login',
+                        name: 'login',
+                        type: 'text',
+                        validate: function (val) {
+                            if (typeof val === 'undefined' || val === '') {
+                                return 'Login is required';
+                            }
+                        }
+                    }],
+                    controls: [{
+                        text: 'login',
+                        attrs: {
+                            type: 'submit'
+                        },
+                        classes: [
+                            'button-primary'
+                        ]
+                    }]
+                }
+            });
+        }
 
-		init(options = {}) {
-			// TODO: дописать реализацию
-		}
-	}
+        resume(options = {}) {
 
+            this._component.render();
 
-	// export
-	window.MainView = MainView;
+            this._component.on('submit', event => {
+                event.preventDefault();
+            });
+
+            this.show();
+        }
+    }
+
+    // export
+    window.MainView = MainView;
 
 })();
