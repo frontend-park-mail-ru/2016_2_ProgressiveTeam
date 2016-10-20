@@ -5,10 +5,12 @@
 		</h1>
 		<div>
 			<fest:for iterate="data.fields" index="i" value="field">
-				<fest:if test="field.label">
-					<label for="id_{field.name}"><fest:value>field.label</fest:value></label>
-				</fest:if>
-				<input id="id_{field.name}" type="{field.type}" name="{field.name}" placeholder="{field.placeholder}"/>
+				<div class="field">
+					<fest:if test="field.label">
+						<label for="id_{field.name}"><fest:value>field.label</fest:value></label>
+					</fest:if>
+					<input id="id_{field.name}" type="{field.type}" name="{field.name}" placeholder="{field.placeholder}"/>
+				</div>
 			</fest:for>
 		</div>
 		<div class="js-controls"></div>

@@ -18,15 +18,25 @@
                 data: {
                     title: 'Login',
                     fields: [{
-                        label: 'login',
-                        name: 'login',
-                        type: 'text',
-                        validate: function (val) {
-                            if (typeof val === 'undefined' || val === '') {
-                                return 'Login is required';
+                            label: 'Login',
+                            name: 'login',
+                            type: 'text',
+                            validate: function (val) {
+                                if (typeof val === 'undefined' || val === '') {
+                                    return 'Login is required';
+                                }
+                            }
+                        }, {
+                            label: 'Password',
+                            name: 'password',
+                            type: 'password',
+                            validate: function (val) {
+                                if (typeof val === 'undefined' || val === '') {
+                                    return 'Password is required';
+                                }
                             }
                         }
-                    }],
+                    ],
                     controls: [{
                         text: 'login',
                         attrs: {
@@ -38,16 +48,14 @@
                     }]
                 }
             });
-        }
-
-        resume(options = {}) {
-
-            this._component.render();
 
             this._component.on('submit', event => {
                 event.preventDefault();
             });
+        }
 
+        resume(options = {}) {
+            this._component.render();
             this.show();
         }
     }
