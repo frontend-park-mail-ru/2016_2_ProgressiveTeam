@@ -1,72 +1,45 @@
-(function() {
+(function () {
     'use strict';
 
     // import
-    let Button = window.Button;
+    const Block = window.Block;
+    const Button = window.Button;
 
-    class Form {
+    class Form extends Block {
 
         /**
          * Конструктор класса Form
-         * @param {dict} options Насройки
          */
         constructor(options = {
             data: {}
         }) {
+            super('form');
+            this.template = window.fest['form/form.tmpl'];
             this.data = options.data;
-            this.validators = {};
-            this.fields = {};
-            this.el = options.el;
-
+            this._el = options.el;
             this.render();
         }
 
+        /**
+         * Обновляем HTML
+         */
         render() {
             this._updateHtml();
             this._installControls();
         }
 
         /**
-         * Вернуть поля формы
-         * @return {string} Строку полей ввода
+         * Обнуляем форму
          */
-        _getFields() {
-            let {
-                fields = []
-            } = this.data;
-
-            return fields.map(field => {
-                let attrs = Object.keys(field.attrs).map(attr => {
-                    if (attr === 'name') {
-                        this.validators[field.attrs[attr]] = field.validate;
-                    }
-                    return `${attr}="${field.attrs[attr]}"`;
-                }).join(' ');
-                return `
-                    <div class="field">
-    					<label for="id_${field.attrs.name}">
-                            ${typeof field.label === 'undefined' ? '' : field.label}
-                        </label>
-    					<input id="id_${field.attrs.name}" ${attrs} />
-                    </div>
-                `;
-            }).join(' ');
+        reset() {
+            this._el.querySelector('form').reset();
         }
 
         /**
          * Обновить html компонента
          */
         _updateHtml() {
-            this.el.innerHTML = `
-				<form>
-					<h1>${this.data.title}</h1>
-					<div class="js-fields">
-						${this._getFields()}
-					</div>
-					<div class="js-controls">
-					</div>
-				<form>
-			`;
+            this._el.innerHTML = this.template(this.data);
         }
 
         /**
@@ -78,56 +51,23 @@
             } = this.data;
 
             controls.forEach(data => {
-                let control = new Button(data).render();
-                this.el.querySelector('.js-controls').appendChild(control.el);
+                let control = new Button({
+                    text: data.text
+                });
+                this._el.querySelector('.js-controls').appendChild(control._get());
             });
         }
 
         /**
-         * Подписка на событие
-         * @param {string} type - имя события
-         * @param {function} callback - коллбек
+         * Взять данные формы
+         * @return {object}
          */
-        on(type, callback) {
-            if (type === 'submit') {
-                this.el.addEventListener(type, event => {
-                    if (this.isValid()) {
-                        callback(event);
-                    } else {
-                        event.preventDefault();
-                    }
-                });
-            } else {
-                this.el.addEventListener(type, callback);
-            }
-        }
-
-        _showError(container, errorMessage) {
-            container.className = 'error';
-            var msgElem = document.createElement('span');
-            msgElem.className = "error-message";
-            msgElem.innerHTML = errorMessage;
-            container.appendChild(msgElem);
-        }
-
-        _resetError(container) {
-            container.className = '';
-            if (container.lastChild.className === "error-message") {
-                container.removeChild(container.lastChild);
-            }
-        }
-
-        /**
-         * Проверка валидности полей и установка значений для getFormData
-         * @return {boolean} Валидна ли форма
-         */
-        isValid() {
-            let valid = true;
-            let form = this.el.querySelector('form');
+        getFormData() {
+            let form = this._el.querySelector('form');
             let elements = form.elements;
+            let fields = {};
 
-            for (var i = 0; i < this.data.fields.length; i++) {
-                let element = Object.keys(elements)[i];
+            Object.keys(elements).forEach(element => {
                 let name = elements[element].name;
                 let value = elements[element].value;
 
@@ -135,44 +75,14 @@
                     return;
                 }
 
-                this._resetError(elements[element].parentNode);
+                fields[name] = value;
+            });
 
-                if (typeof this.validators[name] !== 'undefined') {
-                    let error = this.validators[name](value);
-                    if (typeof error !== 'undefined') {
-                        valid = false;
-                        this._showError(elements[element].parentNode, error);
-                    }
-                }
-
-                this.fields[name] = value;
-            }
-
-            return valid;
-        }
-
-        removeError() {
-            this.el.removeChild(this.el.lastChild);
-        }
-
-        setError(msg) {
-            let msgElem = document.createElement('span');
-            msgElem.className = "error-message";
-            msgElem.innerHTML = msg;
-            let form = this.el.querySelector('form');
-            form.insertBefore(msgElem, form.childNodes[3]);
-        }
-
-        /**
-         * Взять данные формы
-         * @return {object} Возвращает словарь значений
-         */
-        getFormData() {
-            return this.fields;
+            return fields;
         }
 
     }
 
-    // export
+    //export
     window.Form = Form;
 })();

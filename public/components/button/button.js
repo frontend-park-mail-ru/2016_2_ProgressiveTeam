@@ -1,47 +1,17 @@
-(function() {
-    'use strict';
+(function () {
+	'use strict';
 
-    class Button {
-        constructor(options) {
-            this.text = options.text;
-            this.attrs = options.attrs || [];
-            this.classes = options.classes || [];
-            this.eventData = options.on;
-            this.el = document.createElement('button');
-        }
+	const Block = window.Block;
 
-        setClasses(classes) {
-            classes.forEach(className => {
-                this.el.classList.add(className);
-            });
-        }
+	class Button extends Block {
+		constructor(options) {
+			super('button', options);
+			this._el.classList.add('button');
+			this._el.innerText = this._options.text || 'Press me';
+		}
+	}
 
-        setAttrs(attrs) {
-            Object.keys(attrs).forEach(name => {
-                this.el.setAttribute(name, attrs[name]);
-            });
-        }
+	//export
+	window.Button = Button;
 
-        render() {
-            this.el.innerHTML = this.text;
-            this.el.classList.add('button');
-            this.setClasses(this.classes);
-            this.setAttrs(this.attrs);
-            if (this.eventData) {
-                this.on(this.eventData.type, this.eventData.callback);
-            }
-            return this;
-        }
-
-        on(type, callback) {
-            this.el.addEventListener(type, callback);
-        }
-
-        toString() {
-            return this.el.outerHTML;
-        }
-    }
-
-    // export
-    window.Button = Button;
 })();

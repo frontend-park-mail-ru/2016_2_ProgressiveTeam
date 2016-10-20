@@ -1,129 +1,153 @@
-(function() {
-    'use strict';
+(function () {
+	'use strict';
 
-    class Chat {
+	// import
+	const Block = window.Block;
+	const Form = window.Form;
+	const Message = window.Message;
 
-        /**
-         * Конструктор класса Chat
-         */
-        constructor({
-            data = {},
-            el
-        }) {
-            this.data = data;
-            this.el = el;
 
-            this.render();
-        }
+	class Chat extends Block {
 
-        render() {
-            this._updateHtml();
-        }
+		/**
+		 * Конструктор класса Chat
+		 */
+		constructor({data = {messages: [], username: '', email: ''}, el}) {
+			super('form');
+			this.template = window.fest['chat/chat.tmpl'];
+			this.data = data;
+			this._el = el;
 
-        /**
-         * Обновить данные компонента
-         * @param {object} data - данные компонента
-         * @return {object} This is returning
-         */
-        set(data) {
-            this.data = data;
+			this.init();
+			this.render();
+		}
 
-            return this;
-        }
+		/**
+		 * Инициализация составных компонент
+		 */
+		init() {
+			this._updateHtml();
+			this.form = new Form({
+				el: this._el.querySelector('.js-chat-form'),
+				data: {
+					fields: [
+						{
+							name: 'message',
+							type: 'text',
+							placeholder: 'Ваше сообщение'
+						}
+					],
+					controls: [
+						{
+							text: 'Отправить',
+							attrs: {
+								type: 'submit'
+							}
+						}
+					]
+				}
+			});
+			this.form.on('submit', this._sendMessage.bind(this));
 
-        _updateHtml() {
-            this.el.innerHTML = `
-				<h3 id="jsTitle">Ты в чате, ${this.data.username}!</h3>
-				<div id="jsMessages" class="chat">
-					<div class="cssload-wrap">
-						<div class="cssload-cssload-spinner"></div>
-					</div>
-				</div>
-				<form class="js-chat-form">
-					<textarea required class="chat__input" name="message" cols="30" rows="10"></textarea>
-					<button name="name">
-						Отправить
-					</button>
-				</form>
-			`;
-        }
+		}
 
-        filter(str, rules = ['КЕК']) {
-            return `//TODO: реализовать filter`;
-        }
+		/**
+		 * Обновление внешнего вида
+		 */
+		render() {
+			this._renderMessages();
+			this._renderForm();
+		}
 
-        createMessage(opts, isMy = false) {
-            let message = document.createElement('div');
-            let email = document.createElement('div');
+		/**
+		 * Обновить данные компонента
+		 * @param {Object} data - данные компонента
+		 * @returns {Chat}
+		 */
+		set(data) {
+			this.data = Object.assign({}, this.data, data);
+			return this.render();
+		}
 
-            message.classList.add('chat__message');
-            email.classList.add('chat__email');
+		/**
+		 * Подписываем чат на сетевые и пользовательские события
+		 */
+		subscribe() {
+			technolibs.onMessage(this._updateMessages.bind(this));
+		}
 
-            if (isMy) {
-                message.classList.add('chat__message_my');
-            } else {
-                message.style.backgroundColor = `#${technolibs.colorHash(opts.email || '')}`;
-            }
-            message.innerHTML = opts.message;
-            email.innerHTML = opts.email;
-            message.appendChild(email);
+		/**
+		 * Обрабатываем отправку сообщения из чата
+		 */
+		_sendMessage(event) {
+			event.preventDefault();
 
-            return message;
-        }
+			let data = {
+				message: this.form.getFormData().message,
+				email: this.data.email
+			};
+			
+			let message = new Message(data);
+			
+			message.save()
+				.then(data => {
+					this.form.reset();
+				});
 
-        onChat(form) {
-            let data = {
-                message: form.elements.message.value,
-                email: this.data.email
-            };
+			// let result = technolibs.request('/api/messages', data);
+			
+		}
 
-            let result = technolibs.request('/api/messages', data);
-            console.log(result);
-            form.reset();
-        }
+		/**
+		 * Обновляем HTML элемента
+		 */
+		_updateHtml() {
+			this.data.username = this.data.username || this.data.user || 'Anon';
+			this._el.innerHTML = this.template(this.data);
+		}
 
-        renderMessages(items) {
-            let messages = this.el.querySelector('#jsMessages');
-            messages.innerHTML = '';
+		/**
+		 * Обновляем список сообщений
+		 * @return {[type]} [description]
+		 */
+		_renderMessages() {
+			let wrapper = this._el.querySelector('.js-messages');
+			console.log(this.data);
 
-            items.forEach(item => {
-                let message = this.createMessage(
-                    item,
-                    item.email === this.data.email
-                );
-                messages.appendChild(message);
-            });
-            messages.scrollTop = messages.scrollHeight;
-        }
+			wrapper.innerHTML = this.template({
+				block: 'chat__messages',
+				data: this.data.messages
+			});
 
-        subscribe() {
-            technolibs.onMessage(data => {
-                this.renderMessages(Object.keys(data).map(key => data[key]));
-            });
+			wrapper.scrollTop = wrapper.scrollHeight;
+		}
 
-            this.el.querySelector('.js-chat-form')
-                .addEventListener('submit', event => {
-                    event.preventDefault();
-                    this.onChat(event.target);
-                });
-        }
+		/**
+		 * Обновляем форму
+		 */
+		_renderForm() {
+			this.form.render();
+		}
 
-        on(type, callback) {
-            this.el.addEventListener(type, callback);
-        }
+		/**
+		 * Обновляем список сообщений
+		 * @param {Object} data
+		 */
+		_updateMessages(data) {
+			let messages = Object.keys(data).map(key => {
+				let entry = data[key];
 
-        // @TODO вернуть данные формы
-        getFormData() {
-            return {
-                key: 'value'
-            };
-        }
+				entry.background = technolibs.colorHash(entry.email || '');
+				entry.isMy = this.data.email === entry.email;
 
-        install(el) {
-            el.appendChild(this.el);
-        }
-    }
+				return entry;
+			});
 
-    // export
-    window.Chat = Chat;
+			this.set({messages});
+			this._renderMessages();
+		}
+	}
+
+	//export
+	window.Chat = Chat;
 })();
