@@ -29,10 +29,10 @@
 			expect(Route.prototype.navigate).not.toHaveBeenCalled();
 
 			this.router.go('/path2');
-			expect(Route.prototype.navigate).not.toHaveBeenCalled();
+			expect(Route.prototype.navigate).toHaveBeenCalled();
 
 			this.router.go('/path3');
-			expect(Route.prototype.navigate).not.toHaveBeenCalled();
+			expect(Route.prototype.navigate).toHaveBeenCalled();
 
 		});
 
@@ -109,5 +109,5 @@
 			expect(this.router.routes[1].navigate).toHaveBeenCalledWith('/path2', {});
 		})
 	});
-	
+
 })();
