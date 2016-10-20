@@ -1,7 +1,6 @@
 (function () {
 	'use strict';
 
-	// TODO сделать так, чтобы все тесты проходили
 	const pathToRegex = function (pathname) {
 		let keyNames = [];
 		let parts = pathname
@@ -30,6 +29,10 @@
 				path = path.replace(regexp, '');
 				return true;
 			});
+
+			if (path !== '' && path !== '/') {
+				check = false;
+			}
 
 			if (check) {
 				return keys.reduce((prev, curr, pos) => {
