@@ -5,6 +5,14 @@
 		constructor(name, options = {}) {
 			this._el = document.createElement(name);
 			this.setAttrs(options.attrs);
+			this.setClasses(options.classes);
+
+			if (options.on) {
+				options.on.forEach(event => {
+					this.on(event.type, event.callback);
+				});
+			}
+
 			this._options = options;
 		}
 
@@ -12,6 +20,16 @@
 			Object.keys(attrs).forEach(name => {
 				this._el.setAttribute(name, attrs[name]);
 			});
+		}
+
+		setClasses(classes = []) {
+			let class_str = '';
+			console.log(classes);
+			classes.forEach(class_name => {
+				class_str += class_name;
+			});
+
+			this._el.className = class_str;
 		}
 
 		renderTo(element) {

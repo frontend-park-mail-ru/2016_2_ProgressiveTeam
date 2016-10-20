@@ -45,6 +45,18 @@
                         classes: [
                             'button-primary'
                         ]
+                    },{
+                        text: 'sign up',
+                        classes: [
+                            'button-left'
+                        ],
+                        on: [{
+                            type: 'click',
+                            callback: event => {
+                                event.preventDefault();
+                                
+                            }
+                        }]
                     }]
                 }
             });

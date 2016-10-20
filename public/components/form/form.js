@@ -53,9 +53,7 @@
             } = this.data;
 
             controls.forEach(data => {
-                let control = new Button({
-                    text: data.text
-                });
+                let control = new Button(data);
                 this._el.querySelector('.js-controls').appendChild(control._get());
             });
         }

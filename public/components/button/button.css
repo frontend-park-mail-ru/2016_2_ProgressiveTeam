@@ -11,8 +11,15 @@
     letter-spacing: .1rem;
     line-height: 3.8rem;
     padding: 0 3rem;
+	margin-right: 1rem;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
     white-space: nowrap;
+}
+
+.button-left {
+	float: left;
+	background-color: #fff;
+	color: #4dca62;
 }
