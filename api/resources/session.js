@@ -16,11 +16,30 @@ exports.post = {
         200: {
             description: "Вход произведен"
         },
+        403: {
+            description: "Пользователь уже авторизирован"
+        },
         400: {
             description: "Ошибка при выполнении запроса",
             schema: {
                 $ref: "#/definitions/Error"
             }
+        }
+    }
+};
+
+exports.get = {
+    "tags": ["session"],
+    "description": "Метод проверки логина пользователя",
+    "responses": {
+        200: {
+            description: "Пользователь авторизирован"
+        },
+        403: {
+            description: "Пользователь не авторизирован"
+        },
+        400: {
+            description: "Ошибка при выполнении запроса"
         }
     }
 };

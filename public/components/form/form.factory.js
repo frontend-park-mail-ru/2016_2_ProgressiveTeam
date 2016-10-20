@@ -3,7 +3,7 @@
 
     const Form = window.Form;
 
-    class FormFactory extends View {
+    class FormFactory {
 
         static createLoginForm(el) {
             return new Form({
