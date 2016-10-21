@@ -23,7 +23,7 @@ exports.post = {
         200: {
             description: "Пользователь создан",
         },
-        403: {
+        401: {
             description: "Пользователь уже авторизирован"
         },
         400: {
@@ -34,24 +34,35 @@ exports.post = {
         }
     }
 };
+
 exports.get = {
     tags: ["user"],
-    description: "Метод получения информации о пользователе",
+    description: "Метод получения списка пользователей",
 
     parameters: [{
-        name: "Login",
-        description: "Логин пользователя",
+        name: "order",
+        description: "Порядок сортировки",
         type: "string",
         in: "path",
-        required: true
+        enum: ['ask', 'desk'],
+        required: false
+    },{
+        name: "offset",
+        description: "Смещение",
+        type: "integer",
+        in: "path",
+        required: false
     }],
 
     responses: {
         200: {
-            description: "Информация о пользователе",
+            description: "Список пользователей",
             schema: {
-                $ref: "#/definitions/User"
+                $ref: "#/definitions/UserList"
             }
+        },
+        401: {
+            description: "Пользователь не авторизирован"
         },
         400: {
             description: "Ошибка при выполнении запроса",
@@ -62,6 +73,7 @@ exports.get = {
     }
 };
 
+
 exports.delete = {
     tags: ["user"],
     description: "Метод удаления пользователя",
@@ -70,7 +82,7 @@ exports.delete = {
         200: {
             description: "Удаление выполнено"
         },
-        403: {
+        401: {
             description: "Пользователь не авторизирован"
         },
         400: {

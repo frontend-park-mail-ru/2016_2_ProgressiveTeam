@@ -10,7 +10,8 @@ module.exports = {
 
     paths: {
         '/user': require('./resources/user'),
-        '/user/list': require('./resources/user_list'),
+        '/user/{login}': require('./resources/user_detail'),
+        '/user/{login}/password': require('./resources/user_password'),
         '/session': require('./resources/session')
     },
 

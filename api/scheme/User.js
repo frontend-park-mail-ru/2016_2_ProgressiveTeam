@@ -14,6 +14,10 @@ module.exports = {
             type: "string",
             minLength: 6,
             maxLength: 50
+        },
+        avatar: {
+            description: 'Avatar',
+            type: "file"
         }
     },
 
