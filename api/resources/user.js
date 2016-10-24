@@ -72,24 +72,3 @@ exports.get = {
         }
     }
 };
-
-
-exports.delete = {
-    tags: ["user"],
-    description: "Метод удаления пользователя",
-
-    responses: {
-        200: {
-            description: "Удаление выполнено"
-        },
-        401: {
-            description: "Пользователь не авторизирован"
-        },
-        400: {
-            description: "Ошибка при выполнении запроса",
-            schema: {
-                $ref: "#/definitions/Error"
-            }
-        }
-    }
-};
