@@ -7,10 +7,10 @@
     const FormFactory = window.FormFactory;
     const Router = window.Router;
 
-    class MainView extends View {
+    class LoginView extends View {
         constructor(options = {}) {
             super(options);
-            this._el = document.querySelector('.js-main');
+            this._el = document.querySelector('.js-login');
             this.hide();
         }
 
@@ -23,16 +23,12 @@
         }
 
         resume(options = {}) {
-            if (!currentUser.is_authenticated()) {
-                (new Router).go('/login');
-            }
-
             this._component.render();
             this.show();
         }
     }
 
     // export
-    window.MainView = MainView;
+    window.LoginView = LoginView;
 
 })();

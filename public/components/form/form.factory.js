@@ -112,7 +112,7 @@
                             type: 'click',
                             callback: event => {
                                 event.preventDefault();
-                                (new Router).go('/');
+                                (new Router).go('/login');
                             }
                         }]
                     }]
