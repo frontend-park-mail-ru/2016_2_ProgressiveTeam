@@ -20,7 +20,11 @@
             xhr.setRequestHeader('CORS', 'Access-Control-Allow-Origin');
             xhr.send();
 
-            return new CurrentUser(JSON.parse(xhr.responseText));
+            try {
+                return new CurrentUser(JSON.parse(xhr.responseText));
+            } catch (e) {
+                return new CurrentUser();
+            }
         }
     }
 

@@ -4,7 +4,7 @@
     const currentUser = window.currentUser;
 
     const View = window.View;
-    const FormFactory = window.FormFactory;
+    const Menu = window.Menu;
     const Router = window.Router;
 
     class MainView extends View {
@@ -15,10 +15,18 @@
         }
 
         init(options = {}) {
-            this._component = FormFactory.createLoginForm(this._el);
-
-            this._component.on('submit', event => {
-                event.preventDefault();
+            this._component = new Menu({
+                el: this._el,
+                data: {
+                    title: 'Main menu',
+                    items: [{
+                        text: 'Login',
+                        url: '/login'
+                    }, {
+                        text: 'Chat',
+                        url: '/chat'
+                    }]
+                }
             });
         }
 
