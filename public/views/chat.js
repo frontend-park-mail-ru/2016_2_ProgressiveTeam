@@ -26,6 +26,10 @@
 
             this.show();
         }
+
+        get title() {
+            return 'Chat';
+        }
     }
 
     // export

@@ -3,6 +3,7 @@
 
     // import
     const User = window.User;
+    const request = window.request;
 
     class CurrentUser extends User {
 
@@ -15,13 +16,11 @@
          * @returns {User}
          */
         static getCurrentUser() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/session', false);
-            xhr.setRequestHeader('CORS', 'Access-Control-Allow-Origin');
-            xhr.send();
+            let data = request('GET', '/session', {}, false);
+            console.log(data);
 
             try {
-                return new CurrentUser(JSON.parse(xhr.responseText));
+                return new CurrentUser(data);
             } catch (e) {
                 return new CurrentUser();
             }

@@ -26,6 +26,10 @@
             this._component.render();
             this.show();
         }
+
+        get title() {
+            return 'Login';
+        }
     }
 
     // export

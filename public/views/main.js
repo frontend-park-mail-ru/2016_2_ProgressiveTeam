@@ -38,6 +38,10 @@
             this._component.render();
             this.show();
         }
+
+        get title() {
+            return 'Fantasy Battle';
+        }
     }
 
     // export
