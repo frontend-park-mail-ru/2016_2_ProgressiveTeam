@@ -21,10 +21,12 @@
                     title: 'Main menu',
                     items: [{
                         text: 'Login',
-                        url: '/login'
+                        url: '/login',
+                        classes: ['button_full-width']
                     }, {
                         text: 'Chat',
-                        url: '/chat'
+                        url: '/chat',
+                        classes: ['button_full-width']
                     }]
                 }
             });

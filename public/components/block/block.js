@@ -26,7 +26,7 @@
 			let class_str = '';
 
 			classes.forEach(class_name => {
-				class_str += class_name;
+				class_str += class_name + ' ';
 			});
 
 			this._el.className = class_str;

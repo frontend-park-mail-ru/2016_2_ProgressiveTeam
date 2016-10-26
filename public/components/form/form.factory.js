@@ -35,12 +35,14 @@
                             type: 'submit'
                         },
                         classes: [
-                            'button-primary'
+                            'button-primary',
+                            'button_inline'
                         ]
                     }, {
                         text: 'sign up',
                         classes: [
-                            'button-left'
+                            'button-left',
+                            'button_inline'
                         ],
                         on: [{
                             type: 'click',
@@ -101,12 +103,14 @@
                             type: 'submit'
                         },
                         classes: [
-                            'button-primary'
+                            'button-primary',
+                            'button_inline'
                         ]
                     }, {
                         text: 'back',
                         classes: [
-                            'button-left'
+                            'button-left',
+                            'button_inline'
                         ],
                         on: [{
                             type: 'click',
