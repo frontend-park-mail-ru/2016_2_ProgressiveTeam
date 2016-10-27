@@ -6,6 +6,8 @@
     const View = window.View;
     const User = window.User;
     const ItemList = window.ItemList;
+    const LinkButton = window.LinkButton;
+    const Layout = window.Layout;
     const Router = window.Router;
 
     class UserListView extends View {
@@ -16,12 +18,22 @@
         }
 
         init(options = {}) {
-            this._component = new ItemList({
+            this._component = new Layout({
                 el: this._el,
-                Model: User,
-                data: {
-                    title: 'Users'
-                },
+                orientation: 'vertical',
+                objects: [
+                    new ItemList({
+                        el: document.createElement('div'),
+                        Model: User,
+                        data: {
+                            title: 'Users'
+                        },
+                    }),
+                    new LinkButton({
+                        text: 'Back',
+                        url: '/'
+                    })
+                ]
             });
         }
 
