@@ -46,12 +46,9 @@
             this.objects.forEach(obj => {
                 let layout_obj = document.createElement('div');
                 layout_obj.className = `layout__object ${this.orientation}`;
-                console.log(obj._get());
                 layout_obj.appendChild(obj._get());
-                console.log(layout_obj.innerHTML);
 
                 layout_wrapper.appendChild(layout_obj);
-                console.log(layout_wrapper.innerHTML);
             });
 
             this._el.innerHTML = '';
