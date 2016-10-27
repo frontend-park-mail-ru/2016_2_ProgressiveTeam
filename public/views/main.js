@@ -15,33 +15,39 @@
         }
 
         init(options = {}) {
+            let data_items = null;
+            if (currentUser.is_authenticated()) {
+                data_items = [{
+                    text: 'User list',
+                    url: '/users',
+                    classes: ['button_full-width']
+                }, {
+                    text: 'Chat',
+                    url: '/chat',
+                    classes: ['button_full-width']
+                }];
+            } else {
+                data_items = [{
+                    text: 'Sign Up',
+                    url: '/signup',
+                    classes: ['button_full-width']
+                }, {
+                    text: 'Login',
+                    url: '/login',
+                    classes: ['button_full-width']
+                }];
+            }
+
             this._component = new Menu({
                 el: this._el,
                 data: {
-                    title: 'Main menu',
-                    items: [{
-                        text: 'Login',
-                        url: '/login',
-                        classes: ['button_full-width']
-                    }, {
-                        text: 'User list',
-                        url: '/users',
-                        classes: ['button_full-width']
-                    }, {
-                        text: 'Chat',
-                        url: '/chat',
-                        classes: ['button_full-width']
-                    }]
+                    title: 'Fantasy Battle',
+                    items: data_items
                 }
             });
         }
 
         resume(options = {}) {
-            if (!currentUser.is_authenticated()) {
-                (new Router).go('/login');
-                return;
-            }
-
             this._component.render();
             this.show();
         }
