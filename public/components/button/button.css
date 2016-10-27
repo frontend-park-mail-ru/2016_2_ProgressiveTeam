@@ -2,7 +2,7 @@
 .button {
   text-decoration: none;
   color: #fff;
-  background-color: #4dca62;
+  background-color: #8e988f;
   text-align: center;
   letter-spacing: .5px;
   border: none;
@@ -20,7 +20,7 @@
 }
 
 .button:hover {
-  background-color: #7ecf8c;
+  background-color: #a6a6a6;
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
   transition: all .3s ease-out;
 }
@@ -28,14 +28,14 @@
 .button-left {
   float: left;
   background-color: #fff;
-  color: #4dca62;
-  border: .1rem solid #4dca62;
+  color: #8e988f;
+  border: .1rem solid #8e988f;
 }
 
 .button-left:hover {
   background-color: #fff;
-  color: #7ecf8c;
-  border: .1rem solid #7ecf8c;
+  color: #a6a6a6;
+  border: .1rem solid #a6a6a6;
 }
 
 .button_full-width {
