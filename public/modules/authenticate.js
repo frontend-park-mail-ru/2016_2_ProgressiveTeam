@@ -17,7 +17,6 @@
          */
         static getCurrentUser() {
             let data = request('GET', '/session', {}, false);
-            console.log(data);
 
             try {
                 return new CurrentUser(data);

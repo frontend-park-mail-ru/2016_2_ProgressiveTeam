@@ -23,6 +23,11 @@
         }
 
         resume(options = {}) {
+            if (currentUser.is_authenticated()) {
+                (new Router).go('/');
+                return;
+            }
+
             this._component.render();
             this.show();
         }

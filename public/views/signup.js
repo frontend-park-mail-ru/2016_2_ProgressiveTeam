@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const currentUser = window.currentUser;
+
     const View = window.View;
     const FormFactory = window.FormFactory;
     const Router = window.Router;
@@ -21,6 +23,11 @@
         }
 
         resume(options = {}) {
+            if (currentUser.is_authenticated()) {
+                (new Router).go('/');
+                return;
+            }
+
             this._component.render();
             this.show();
         }

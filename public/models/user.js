@@ -18,7 +18,7 @@
 		}
 
 		get url() {
-			return '/user/';
+			return '/user';
 		}
 	}
 

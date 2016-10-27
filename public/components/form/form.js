@@ -19,6 +19,7 @@
             this._el = options.el || document.createElement('div');
             this.validators = this._getValidatorDict(options.data.fields);
             this.fields_data = {};
+            
             this.render();
         }
 

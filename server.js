@@ -7,6 +7,7 @@ app.use('/', express.static('public', { maxAge: 1 }));
 app.use('/chat', express.static('public', {maxAge: 1}));
 app.use('/signup', express.static('public', {maxAge: 1}));
 app.use('/login', express.static('public', {maxAge: 1}));
+app.use('/users', express.static('public', {maxAge: 1}));
 technoDoc.generate(require('./api'), 'public');
 
 app.use(parser.json());
@@ -14,6 +15,15 @@ app.use('/libs', express.static('node_modules'));
 
 app.get('/session', (req, res) => {
     res.send(technoDoc.mock(require('./api/scheme/User')));
+});
+
+app.get('/user', function(req, res) {
+    res.send([
+        technoDoc.mock(require('./api/scheme/User')),
+        technoDoc.mock(require('./api/scheme/User')),
+        technoDoc.mock(require('./api/scheme/User')),
+        technoDoc.mock(require('./api/scheme/User'))
+    ]);
 });
 
 app.get('/api/session', (req, res) => {

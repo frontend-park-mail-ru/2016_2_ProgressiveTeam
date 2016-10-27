@@ -17,7 +17,7 @@ module.exports = {
         },
         avatar: {
             description: 'Avatar',
-            type: "file"
+            type: "string"
         }
     },
 

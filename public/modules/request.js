@@ -39,7 +39,7 @@
 
                 xhr.send(JSON.stringify(data));
             }).then(response => {
-                return JSON.loads(response);
+                return JSON.parse(response);
             });
         }
 

@@ -24,6 +24,10 @@
                         url: '/login',
                         classes: ['button_full-width']
                     }, {
+                        text: 'User list',
+                        url: '/users',
+                        classes: ['button_full-width']
+                    }, {
                         text: 'Chat',
                         url: '/chat',
                         classes: ['button_full-width']
@@ -35,6 +39,7 @@
         resume(options = {}) {
             if (!currentUser.is_authenticated()) {
                 (new Router).go('/login');
+                return;
             }
 
             this._component.render();
