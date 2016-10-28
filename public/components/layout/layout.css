@@ -1,0 +1,11 @@
+.layout {
+  display: table;
+}
+
+.layout__object_horizontal {
+  display: table-cell;
+}
+
+.layout__object_vertical {
+  display: table-row;
+}

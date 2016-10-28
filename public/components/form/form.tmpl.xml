@@ -1,0 +1,18 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
+	<form>
+		<h1>
+			<fest:value>data.title</fest:value>
+		</h1>
+		<div>
+			<fest:for iterate="data.fields" index="i" value="field">
+				<div class="field">
+					<fest:if test="field.label">
+						<label for="id_{field.name}"><fest:value>field.label</fest:value></label>
+					</fest:if>
+					<input id="id_{field.name}" type="{field.type}" name="{field.name}" placeholder="{field.placeholder}"/>
+				</div>
+			</fest:for>
+		</div>
+		<div class="js-controls"></div>
+	</form>
+</fest:template>

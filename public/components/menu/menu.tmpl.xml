@@ -1,0 +1,9 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
+	<div class="menu">
+		<h1 class="text_fantasy-style">
+			<fest:value>data.title</fest:value>
+		</h1>
+		<div class="js-menu menu__item-list">
+		</div>
+	</div>
+</fest:template>

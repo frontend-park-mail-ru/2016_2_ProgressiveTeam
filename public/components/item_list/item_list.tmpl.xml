@@ -1,0 +1,44 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
+
+	<!-- Объявляем блок чата -->
+	<fest:set name="chat">
+		<h3><fest:value>params.title</fest:value></h3>
+		<div class="js-items">
+			<div class="cssload-wrap">
+				<div class="cssload-cssload-spinner"></div>
+			</div>
+		</div>
+	</fest:set>
+
+	<!-- Объявляем элемент сообщений -->
+	<fest:set name="list_items">
+        <table>
+        <thead>
+          <tr>
+            <th>Login</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+    		<fest:for iterate="params.data" index="i" value="item">
+              <tr>
+                <td><fest:value>item.attributes.login</fest:value></td>
+                <td><fest:value>item.attributes.email</fest:value></td>
+              </tr>
+    		</fest:for>
+         </tbody>
+       </table>
+	</fest:set>
+
+	<!-- Вызываем нужный блок/элемент блока -->
+	<fest:choose>
+		<fest:when test="data.block">
+			<fest:get name="{data.block}">data</fest:get>
+		</fest:when>
+
+		<fest:otherwise>
+			<fest:get name="chat">data</fest:get>
+		</fest:otherwise>
+	</fest:choose>
+
+</fest:template>

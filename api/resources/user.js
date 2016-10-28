@@ -5,95 +5,70 @@ exports.post = {
     parameters: [{
         name: "email",
         description: "Почта пользователя",
-        type: "string"
+        type: "string",
+        required: true
     }, {
         name: "login",
         description: "Логин пользователя",
-        type: "string"
+        type: "string",
+        required: true
     }, {
         name: "password",
         description: "Пароль пользователя",
-        type: "string"
-    }],
-
-    responses: {
-        200: {
-            description: "ID сессии",
-            schema: {
-                $ref: "#/definitions/Session"
-            }
-        },
-        403: {
-            description: "Ошибка при выполнении запроса"
-        }
-    }
-};
-exports.get = {
-    tags: ["user"],
-    description: "Метод получения информации о пользователе",
-
-    parameters: [{
-        name: "id",
-        description: "ID сессии",
-        type: "integer",
-        in: "path",
+        type: "string",
         required: true
     }],
 
     responses: {
         200: {
-            description: "Информация о пользователе",
+            description: "Пользователь создан",
+        },
+        401: {
+            description: "Пользователь уже авторизирован"
+        },
+        400: {
+            description: "Ошибка при выполнении запроса",
             schema: {
-                $ref: "#/definitions/User"
+                $ref: "#/definitions/Error"
+            }
+        }
+    }
+};
+
+exports.get = {
+    tags: ["user"],
+    description: "Метод получения списка пользователей",
+
+    parameters: [{
+        name: "order",
+        description: "Порядок сортировки",
+        type: "string",
+        in: "path",
+        enum: ['ask', 'desk'],
+        required: false
+    },{
+        name: "offset",
+        description: "Смещение",
+        type: "integer",
+        in: "path",
+        required: false
+    }],
+
+    responses: {
+        200: {
+            description: "Список пользователей",
+            schema: {
+                $ref: "#/definitions/UserList"
             }
         },
         401: {
-            description: "Ошибка при выполнении запроса"
-        }
-    }
-};
-exports.put = {
-    tags: ["user"],
-    description: "Метод изменения данных пользователя",
-
-    parameters: [{
-        name: "id",
-        description: "Id сессии",
-        type: "integer",
-        in: "path",
-        required: true
-    }],
-
-    responses: {
-        200: {
-            description: "Id  сессии",
+            description: "Пользователь не авторизирован"
+        },
+        400: {
+            description: "Ошибка при выполнении запроса",
             schema: {
-                $ref: "#/definitions/Session"
+                $ref: "#/definitions/Error"
             }
-        },
-        403: {
-            description: "Ошибка при выполнении запроса"
-        }
-    }
-};
-exports.delete = {
-    tags: ["user"],
-    description: "Метод удаления пользователя",
-
-    parameters: [{
-        name: "id",
-        description: "Id сессии",
-        type: "integer",
-        in: "path",
-        required: true
-    }],
-
-    responses: {
-        200: {
-            description: "Успешный запрос"
-        },
-        403: {
-            description: "Ошибка при выполнении запроса"
         }
     }
 };
