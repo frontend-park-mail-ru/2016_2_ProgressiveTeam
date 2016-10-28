@@ -5,7 +5,7 @@
 
     class Container extends Block {
 
-        constructor(options) {
+        constructor(options = {}) {
             if (options.classes) {
                 options.classes.push('container');
             } else {
@@ -14,12 +14,12 @@
             super('div', options);
 
             this.options = options;
-
-            this.render();
         }
 
         render() {
-            this.renderTo(this.options.el);
+            if (this.options.el) {
+                this.renderTo(this.options.el);
+            }
 
             if (this.options.classes.indexOf('container_center')) {
                 this._moveToCenter();

@@ -18,22 +18,8 @@
         }
 
         init(options = {}) {
-            this._component = new Layout({
-                el: this._el,
-                orientation: 'vertical',
-                objects: [
-                    new ItemList({
-                        el: document.createElement('div'),
-                        Model: User,
-                        data: {
-                            title: 'Users'
-                        },
-                    }),
-                    new LinkButton({
-                        text: 'Back',
-                        url: '/'
-                    })
-                ]
+            this._component = new UserList({
+                el: this._el
             });
         }
 
