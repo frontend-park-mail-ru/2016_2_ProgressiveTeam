@@ -2,7 +2,7 @@
 	'use strict';
 
 	// import
-	const Block = window.Block;
+    const Block = window.Block;
     const User = window.User;
     const Collection = window.Collection;
 
