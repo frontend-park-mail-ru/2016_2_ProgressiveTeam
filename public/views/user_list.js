@@ -4,10 +4,7 @@
     const currentUser = window.currentUser;
 
     const View = window.View;
-    const User = window.User;
-    const ItemList = window.ItemList;
-    const LinkButton = window.LinkButton;
-    const Layout = window.Layout;
+    const UserList = window.UserList;
     const Router = window.Router;
 
     class UserListView extends View {

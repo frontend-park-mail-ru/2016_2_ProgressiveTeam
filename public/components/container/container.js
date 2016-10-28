@@ -21,7 +21,7 @@
                 this.renderTo(this.options.el);
             }
 
-            if (this.options.classes.indexOf('container_center')) {
+            if (this.options.classes.indexOf('container_center') !== -1) {
                 this._moveToCenter();
             }
         }
@@ -30,7 +30,12 @@
          * Перемещает блок в центр окна
          */
         _moveToCenter() {
-            this._el.style.margin = parseInt(`-${this._el.style.height / 2}`, 10);
+            let style = window.getComputedStyle(this._el, null);
+            console.log(style.height, style.width);
+            this._el.style.marginTop = parseInt(`-${parseInt(style.height.slice(0, -2), 10) / 2}`, 10) + 'px';
+            this._el.style.marginLeft = parseInt(`-${parseInt(style.width.slice(0, -2), 10) / 2}`, 10) + 'px';
+            this.on('load', event => {
+            });
         }
     }
 

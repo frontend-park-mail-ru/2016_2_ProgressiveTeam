@@ -5,6 +5,7 @@
 
     const View = window.View;
     const Menu = window.Menu;
+    const Container = window.Container;
     const Router = window.Router;
 
     class MainView extends View {
@@ -38,18 +39,25 @@
                 }];
             }
 
-            this._component = new Menu({
-                el: this._el,
+            let menu = new Menu({
+                el: document.createElement('div'),
                 data: {
                     title: 'Fantasy Battle',
                     items: data_items
                 }
             });
+            menu.render();
+
+            this._component = new Container({
+                el: this._el,
+                classes: ['container_small ', 'container_no-background', 'container_center']
+            });
+            this._component.append(menu);
         }
 
         resume(options = {}) {
-            this._component.render();
             this.show();
+            this._component.render();
         }
 
         get title() {

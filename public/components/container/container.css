@@ -22,4 +22,10 @@
 .container_center {
   position: absolute;
   top: 50%;
+  left: 50%;
+}
+
+.container_no-background {
+  background: none;
+  box-shadow: none;
 }
