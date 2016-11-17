@@ -25,9 +25,21 @@
             }).then(data => {
                     console.log(data);
                     if (!data.error) {
+                        this.has_auth = true;
                         (new Router).go('/');
                     }
                 });
+        }
+
+        logout() {
+            request('DELETE', '/session', {})
+                .then(data => {
+                    console.log(data);
+                    if (!data.error) {
+                        this.has_auth = false;
+                        (new Router).go('/');
+                    }
+                })
         }
 
         register() {

@@ -16,15 +16,26 @@
         }
 
         init(options = {}) {
+            this._component = new Container({
+                el: this._el,
+                classes: ['container_small ', 'container_no-background', 'container_center']
+            });
+        }
+
+        updateHTML(is_auth) {
             let data_items = null;
-            if (currentUser.is_authenticated()) {
+            if (is_auth) {
                 data_items = [{
                     text: 'User list',
                     url: '/users',
                     classes: ['button_full-width']
                 }, {
-                    text: 'Chat',
-                    url: '/chat',
+                    text: 'Game',
+                    url: '/game',
+                    classes: ['button_full-width']
+                }, {
+                    text: 'Logout',
+                    url: '/logout',
                     classes: ['button_full-width']
                 }];
             } else {
@@ -47,16 +58,15 @@
                 }
             });
             menu.render();
-
-            this._component = new Container({
-                el: this._el,
-                classes: ['container_small ', 'container_no-background', 'container_center']
-            });
+            while (this._component._el.firstChild) {
+                this._component._el.removeChild(this._component._el.firstChild);
+            }
             this._component.append(menu);
         }
 
         resume(options = {}) {
-            this.init();
+            // TODO Switch buttons
+            this.updateHTML(currentUser.is_authenticated());
             this.show();
             this._component.render();
         }
