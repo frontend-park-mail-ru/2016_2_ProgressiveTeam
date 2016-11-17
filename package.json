@@ -25,6 +25,7 @@
     "express": "^4.14.0",
     "json-schema-mock": "0.0.8",
     "request-json": "^0.6.1",
+    "strip": "^3.0.0",
     "techno-gendoc": "0.4.1",
     "technolibs": "1.1.0"
   },
