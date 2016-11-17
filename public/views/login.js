@@ -26,7 +26,12 @@
 
             form.on('submit', event => {
                 event.preventDefault();
-                (new Router).go('/');
+                if (form.isValid()) {
+                    let data = form.getFormData()
+                    currentUser.login = data.login;
+                    currentUser.password = data.password;
+                    currentUser.auth();
+                }
             });
             form.render();
         }

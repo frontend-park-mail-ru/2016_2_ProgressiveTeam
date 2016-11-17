@@ -3,6 +3,7 @@
 
     const currentUser = window.currentUser;
 
+    const request = window.request;
     const View = window.View;
     const Container = window.Container;
     const FormFactory = window.FormFactory;
@@ -26,7 +27,13 @@
 
             form.on('submit', event => {
                 event.preventDefault();
-                (new Router).go('/');
+                if (form.isValid()) {
+                    let data = form.getFormData()
+                    currentUser.login = data.login;
+                    currentUser.email = data.email;
+                    currentUser.password = data.password;
+                    currentUser.register();
+                }
             });
             form.render();
         }

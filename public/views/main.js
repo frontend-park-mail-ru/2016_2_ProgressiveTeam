@@ -56,6 +56,7 @@
         }
 
         resume(options = {}) {
+            this.init();
             this.show();
             this._component.render();
         }

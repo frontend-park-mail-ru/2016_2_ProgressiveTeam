@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    // let ip = 'https://progressive-team-backend.herokuapp.com';
-    let ip = '';
+    let ip = 'https://progressive-team-backend.herokuapp.com/api';
+    // let ip = '';
 
     /**
      * function for ajax requests to hardcoded address.

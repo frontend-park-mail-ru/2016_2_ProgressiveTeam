@@ -5,12 +5,42 @@
     const User = window.User;
     const getCookie = window.getCookie;
     const request = window.request;
+    const Router = window.Router;
 
     class CurrentUser extends User {
 
+        constructor(data, is_authenticated = false) {
+            super(data);
+            this.has_auth = is_authenticated;
+        }
+
         is_authenticated() {
-            // return Boolean(getCookie('JSESSIONID'));
-            return this.name !== '';
+            return this.has_auth;
+        }
+
+        auth() {
+            request('POST', '/session', {
+                login: this.login,
+                password: this.password
+            }).then(data => {
+                    console.log(data);
+                    if (!data.error) {
+                        (new Router).go('/');
+                    }
+                });
+        }
+
+        register() {
+            request('POST', '/user', {
+                login: this.login,
+                email: this.email,
+                password: this.password
+            }).then(data => {
+                if (data === {}) {
+                    this.auth();
+                    (new Router).go('/');
+                }
+            });
         }
 
         /**
@@ -19,10 +49,9 @@
          */
         static getCurrentUser() {
             let data = request('GET', '/session', {}, false);
-
-            try {
-                return new CurrentUser(data);
-            } catch (e) {
+            if (!data.error) {
+                return new CurrentUser(data, true);
+            } else {
                 return new CurrentUser();
             }
         }
