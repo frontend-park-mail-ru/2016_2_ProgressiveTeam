@@ -18,11 +18,13 @@ Turn
   units: [{
     id: 0,
     type: 'warrior',
-    coords: [1, 2]
+    coords: [1, 2],
+    user_id: 1
   },{
     id: 1,
     type: 'warrior',
-    coords: [2, 2]
+    coords: [2, 2],
+    user_id: 2
   }],
   action: {...},
   timelline: [...] 
@@ -48,12 +50,15 @@ Whose turn is can be got from unit id in client.units array
 ```
 [{
   id: 1,
-  unit_id: 1
+  unit_id: 1,
+  user_id: 1
 }, {
   id: 2,
-  unit_id: 3
+  unit_id: 3,
+  user_id: 1
 }, {
   id: 3,
   unit_id: 2,
+  user_id: 2
 }]
 ```
