@@ -1,5 +1,7 @@
 Game process
 ============
+[Schemes](https://github.com/ElusiveSpirit/2016_2_ProgressiveTeam/blob/master/api/game_schemes.md)  
+  
 0. Server recieves data with units' positions from both clients
 1. The game starts and server pushes data of new turn
    data includes:
@@ -13,4 +15,4 @@ Game process
      - action
      - coords (move to)
      - [optional] coords of attack (if unit attack someone)
-5. Goto 1
+5. Goto 2
