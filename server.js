@@ -8,6 +8,12 @@ app.use('/chat', express.static('public', {maxAge: 1}));
 app.use('/signup', express.static('public', {maxAge: 1}));
 app.use('/login', express.static('public', {maxAge: 1}));
 app.use('/users', express.static('public', {maxAge: 1}));
+app.use('/game', express.static('public', {maxAge: 1}));
+app.use('/chat/', express.static('public', {maxAge: 1}));
+app.use('/signup/', express.static('public', {maxAge: 1}));
+app.use('/login/', express.static('public', {maxAge: 1}));
+app.use('/users/', express.static('public', {maxAge: 1}));
+app.use('/game/', express.static('public', {maxAge: 1}));
 technoDoc.generate(require('./api'), 'public');
 
 app.use(parser.json());

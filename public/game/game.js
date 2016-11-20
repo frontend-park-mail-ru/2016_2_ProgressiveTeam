@@ -1,78 +1,103 @@
 (function () {
-	'use strict';
+    'use strict';
 
-	const Ball = window.Ball;
-	const KeyMaster = window.KeyMaster;
+    const WSHandler = window.WSHandler;
+    const TimeLine = window.TimeLine;
+    const Field = window.Field;
+    const Unit = window.Unit;
 
-	class Game {
-		constructor({ctx, width, height}) {
-			this.ctx = ctx;
-			this.width = width;
-			this.height = height;
+    class Game {
+        constructor({canvas, width, height}) {
+            this.canvas = canvas;
+            this.ctx = canvas.getContext('2d');
+            this.width = width;
+            this.height = height;
 
-			this.key = new KeyMaster();
-			this.key.init();
+            this.ws = new WSHandler();
 
-			this.ball = new Ball({x: 100, y: 100, r: 40, color: '#0e751f'});
-		}
+            this.timeline = new TimeLine();
+            this.field = new Field({
+                x: 0,
+                y: 0,
+                count_x: 10,
+                count_y: 6
+            });
+            this.field.addUnits([
+                new Unit({ x: 1, y: 1 }),
+                new Unit({ x: 3, y: 4 }),
+            ])
 
-		start () {
-			this.ball.draw(this.ctx);
-			this.ball.dv({dvx: 0.1, dvy: 0.1});
+            this.initEvents();
+        }
 
-			this.animate();
-		}
+        ready() {
+            this.ws.sendPosition(this.field.getPosition());
+            // Show animation to wait for opponent
+        }
 
-		animate () {
-			let date = Date.now();
-			let doAnimate = () => {
-				let localDate = Date.now();
-				this.clear();
+        /**
+         * New turn
+         *
+         * need to check whose turn now
+         */
+        newTurn(data) {
+            this.timeline.push(data.timeline);
+            let currentTurn = this.timeline.pop();
 
-				this.ball.update(localDate - date);
-				this.ball.draw(this.ctx);
+            this.runAction(data.action);
 
-				this.ball.checkRectIntersection({
-					width: this.width,
-					height: this.height
-				}, 'reflect');
+            if (currentTurn.isMine() && currentTurn.id === data.id) {
+                this.field.setActiveUnit(currentTurn.unit_id);
+            }
+        }
 
-				this.doKeys();
-				console.log(this.ball)
+        initEvents() {
+            this.canvas.addEventListener('mousedown', event => {
+                let coords = {
+                    x: event.x,
+                    y: event.y
+                };
 
-				date = localDate;
+                if (event.x < this.field._width && event.y < this.field._height) {
+                    let unit = this.field.clicked(event);
+                    if (unit && unit.isEnemy()) {
+                        // currentUnit is going to attack unit
+                        let moving_to_coords = this.field.getCellToMove();
+                        if (this.currentUnit.isReachable(coords) &&
+                                this.currentUnit.isReachable(moving_to_coords)) {
+                            this.ws.sendTurn({
 
-				requestAnimationFrame(doAnimate);
-			}
+                            });
+                        }
+                    } else {
+                        if (this.currentUnit.isReachable(coords)) {
+                        }
+                    }
+                }
+            });
 
-			doAnimate();
-		}
+            this.ws.newData = data => {
 
-		doKeys () {
-			if (this.key.is('w')) {
-				this.ball.dv({dvy: -0.01})
-			}
+            }
+        }
 
-			if (this.key.is('s')) {
-				this.ball.dv({dvy: 0.01})
-			}
+        runAction(action_data) {
+            // Move currentUnit and attack the unit
+            this.ws.attack(moving_to_coords, coords);
 
-			if (this.key.is('a')) {
-				this.ball.dv({dvx: -0.01})
-			}
+            this.currentUnit.animate(ctx, 'move', {
+                coords: moving_to_coords
+            });
+            this.currentUnit.animate(ctx, 'attack', {coords});
 
-			if (this.key.is('d')) {
-				this.ball.dv({dvx: 0.01})
-			}
-		}
+            // Move currentUnit
+            this.ws.move(coords);
 
-		clear () {
-			this.ctx.clearRect(0, 0, this.width, this.height);
-		}
-	}
+            this.currentUnit.animate(ctx, 'move', {coords});
+        }
+    }
 
-
-	// export
-	window.Game = Game;
+    // export
+    window.Game = Game;
 
 })();

@@ -10,7 +10,7 @@
     const UserListView = window.UserListView;
 
     (new Router)
-        .addRoute('/game', ChatView)
+        .addRoute('/game', GameView)
         .addRoute('/signup', SignupView)
         .addRoute('/logout', LogoutView)
         .addRoute('/login', LoginView)

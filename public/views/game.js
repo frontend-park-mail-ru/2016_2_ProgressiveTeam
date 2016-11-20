@@ -15,13 +15,11 @@
 			this.canvas = this._el.querySelector('.js-canvas');
 			this.canvas.width = '1024';
 			this.canvas.height = '768';
-
-			this.ctx = this.canvas.getContext('2d');
 		}
 
 		resume(options = {}) {
 			this._game = new Game({
-				ctx: this.ctx,
+				canvas: this.canvas,
 				width: 1024,
 				height: 768
 			});

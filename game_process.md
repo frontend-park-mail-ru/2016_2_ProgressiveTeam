@@ -5,7 +5,7 @@ Game process
    data includes:
      - Turn's number
      - All units with all properties
-     - Last active (That in first turn = null)
+     - Last action (That in first turn = null)
      - Extra timeline cell (20 cells in first turn)
 2. Client animates new data (Both his and opponent turns are animated in this time)
 3. If current turn is client's then he can do it
