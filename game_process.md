@@ -1,8 +1,9 @@
 Game process
 ============
-0. Server recieves data from both clients
-1. The game starts and server pushes data of new turn  
+0. Server recieves data with units' positions from both clients
+1. The game starts and server pushes data of new turn
    data includes:
+     - Turn's number
      - All units with all properties
      - Last active (That in first turn = null)
      - Extra timeline cell (20 cells in first turn)
