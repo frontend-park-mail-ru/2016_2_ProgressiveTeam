@@ -27,7 +27,7 @@ Turn
     user_id: 2
   }],
   action: {...},
-  timelline: [...] 
+  timeline: [...] 
 }
 ```
 Action
@@ -44,9 +44,8 @@ Action
 }
 ```
 Timeline
-  - id - number of turn
+  - id - number of turn  
 When unit dies timeline will be update. So server sends updated ids and new one.  
-Whose turn is can be got from unit id in client.units array
 ```
 [{
   id: 1,

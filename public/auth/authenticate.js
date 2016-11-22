@@ -25,6 +25,11 @@
             }).then(data => {
                     console.log(data);
                     if (!data.error) {
+                        localStorage.setItem('user_data', {
+                            'id': this.id,
+                            'login': this.login,
+                            'email': this.email
+                        });
                         this.has_auth = true;
                         (new Router).go('/');
                     }
@@ -50,7 +55,6 @@
             }).then(data => {
                 if (data === {}) {
                     this.auth();
-                    (new Router).go('/');
                 }
             });
         }
@@ -60,7 +64,8 @@
          * @returns {User}
          */
         static getCurrentUser() {
-            let data = request('GET', '/session', {}, false);
+            let data = localStorage.user_data ||
+                request('GET', '/session', {}, false);
             if (!data.error) {
                 return new CurrentUser(data, true);
             } else {
