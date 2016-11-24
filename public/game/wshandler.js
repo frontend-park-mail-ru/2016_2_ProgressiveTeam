@@ -29,7 +29,8 @@
         }
 
         sendData(data) {
-            console.log(event);
+            console.log('Data sent', data);
+            this.ws.send(data);
         }
     }
 

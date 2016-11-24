@@ -41,6 +41,7 @@
                 .then(data => {
                     console.log(data);
                     if (!data.error) {
+                        localStorage.removeItem('user_data');
                         this.has_auth = false;
                         (new Router).go('/');
                     }

@@ -59,9 +59,10 @@
             this.map.forEach(l => l.forEach(unit => {
                 position_list.push({
                     type: unit.type,
-                    coords: unit.coord
-                }); 
+                    coords: unit.coords
+                });
             }));
+            return position_list;
         }
 
         draw(ctx) {

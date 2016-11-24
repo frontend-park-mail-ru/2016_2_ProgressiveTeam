@@ -7,12 +7,13 @@
 
 
     class Unit extends AnimatedObject {
-        constructor({ id = -1, x = -1, y = -1, radius = 1, health = 0 }) {
+        constructor({ id = -1, x = -1, y = -1, type = 'warrior', radius = 1, health = 0 }) {
             super(x, y);
 
             this.id = id;
             this.x = x;
             this.y = y;
+            this.type = type;
 
             this.health = health;
         }
@@ -69,6 +70,10 @@
 
         can_move(x, y) {
             return abs(x - this.x) + abs(y - this.y) < this.radius;
+        }
+
+        get coords() {
+            return { x: this.x, y: this.y }
         }
     }
 
