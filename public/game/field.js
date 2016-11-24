@@ -80,7 +80,7 @@
         setActiveUnit(unit_id) {
             this.map.forEach(ar => ar.forEach(el => {
                 if (unit_id == el.id) {
-                    this.activeUnit = unit;
+                    this.activeUnit = el;
                     el.active = true;
                 }
             }));
@@ -89,6 +89,7 @@
         getActiveUnit() {
             return this.activeUnit;
         }
+
 
         clicked(event) {
             let x = parseInt(event.x / this.fieldElemWidth, 10) - 1;
@@ -106,6 +107,13 @@
                 case 'move':
 
                     break;
+            }
+        }
+
+        _animationFunc(isContinue) {
+
+            if (isContinue) {
+                setTimeout(_animationFunc, 20);
             }
         }
     }

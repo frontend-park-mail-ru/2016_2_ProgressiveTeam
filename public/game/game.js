@@ -14,6 +14,7 @@
             this.width = width;
             this.height = height;
 
+            this.debug = debug;
             if (!debug) {
                 this.ws = new WSHandler(this.newTurn.bind(this));
             } else {
@@ -35,9 +36,12 @@
                 count_y: 6
             });
             this.field.addUnits([
-                new Unit({ x: 1, y: 1 }),
-                new Unit({ x: 3, y: 4 }),
+                new Unit({ id: 1, x: 1, y: 1 }),
+                new Unit({ id: 2, x: 3, y: 4 }),
             ]);
+            if (debug) {
+                this.field.setActiveUnit(1);
+            }
 
             this.pane = new Pane(this.field, this.timeline);
 
@@ -45,7 +49,16 @@
         }
 
         start() {
-            
+            this.active = true;
+
+            // Stop animation during developing
+            /*
+            setTimeout(function(){
+                this.active = false;
+            }.bind(this), 2000);
+            */
+
+            this.renderLoop();
         }
 
         ready() {
@@ -59,11 +72,13 @@
          * New turn
          */
         newTurn(data) {
+            console.log(data);
             this.pane.toggleWaitOpponentAnim();
 
             this.timeline.update(data.timeline);
             let currentTurn = this.timeline.pop();
 
+            // this.field.setActiveUnit(currentTurn.unit_id);
             this.runAction(data.action);
 
             if (currentTurn.isMine() && currentTurn.id === data.id) {
@@ -86,7 +101,7 @@
                         // currentUnit is going to attack unit
                         let moving_to_coords = this.field.getCellToMove(event);
 
-                        if (this.activeUnit.isReachable(coords) &&
+                        if (activeUnit.isReachable(coords) &&
                                 this.activeUnit.isReachable(moving_to_coords)) {
                             this.ws.sendTurn({
                                 action: 'attack',
@@ -95,37 +110,66 @@
                             });
                         }
                     } else {
-                        if (this.activeUnit.isReachable(coords)) {
-                            this.ws.sendTurn({
-                                action: 'move',
-                                coords: moving_to_coords
-                            });
+                                console.log(activeUnit, activeUnit.isReachable());
+                        if (activeUnit.isReachable(coords)) {
+                            if (!this.debug) {
+                                this.ws.sendTurn({
+                                    action: 'move',
+                                    coords
+                                });
+                            } else {
+                                this.newTurn({
+                                    action: {
+                                        type: 'move',
+                                        coords
+                                    }
+                                });
+                            }
                         }
                     }
                 }
             });
         }
 
+        isActive() {
+            return this.active;
+        }
+
         runAction(action_data) {
-            switch (action_data.type) {
-                case 'move':
-                    // Move currentUnit
-                    this.field.animate(this.ctx, 'move',
-                        {coords: action_data.coords});
-                    break;
-                case 'attack':
-                    // Move currentUnit and attack the unit
-                    this.field.animate(this.ctx, 'move',
-                        {coords: action_data.coords});
-                    this.field.animate(this.ctx, 'attack',
-                        {coords: action_data.action_to});
-                    // TODO Change with new API
-                    this.field.animate(this.ctx, 'hp_change', {
-                        coords: action_data.coords,
-                        new_unit_data: null
-                    });
-                    break;
+            let activeUnit = this.field.getActiveUnit();
+            activeUnit.setAction(action_data);
+        }
+
+        renderLoop() {
+            let time,
+                isActive = this.isActive.bind(this),
+                exec = this.exec.bind(this);
+            
+            function step() {
+                let now = Date.now(),
+                    dt = now - (time || now);
+
+                time = now;
+
+                if (isActive()) {
+                    requestAnimationFrame(step);
+                }
+
+                exec(dt);
             }
+
+            step();
+        }
+
+        exec(dt) {
+            let activeUnit = this.field.getActiveUnit();
+            activeUnit.update(dt);
+
+            this.renderAll();
+        }
+
+        renderAll() {
+            this.field.draw(this.ctx); 
         }
     }
 

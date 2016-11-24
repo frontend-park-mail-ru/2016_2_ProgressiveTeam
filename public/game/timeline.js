@@ -9,12 +9,14 @@
         }
 
         update(cell_list) {
-            cell_list.forEach(cell => {
-                this.query[cell.id] = {
-                    unit_id: cell.unit_id,
-                    user_id: cell.user_id
-                };
-            }); 
+            if (cell_list) {
+                cell_list.forEach(cell => {
+                    this.query[cell.id] = {
+                        unit_id: cell.unit_id,
+                        user_id: cell.user_id
+                    };
+                }); 
+            }
         }
 
         /**
