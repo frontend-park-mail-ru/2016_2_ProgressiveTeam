@@ -2,10 +2,12 @@
     'use strict';
 
     const WSHandler = window.WSHandler;
+    const Animation = window.Animation;
     const TimeLine = window.TimeLine;
     const Pane = window.Pane;
     const Unit = window.Unit;
     const Field = window.Field;
+    const cellSize = window.cellSize;
 
     class Game {
         constructor({canvas, width, height}, debug = true) {
@@ -51,6 +53,18 @@
         start() {
             this.active = true;
 
+            if (this.debug) {
+                let unit = this.field.clicked({ x: 1, y: 1 });
+
+                unit.runAnimation(new Animation('move', {
+                    rawX: 200
+                }, {
+                    x: 2
+                }));
+
+                console.log(unit);
+
+            }
             // Stop animation during developing
             /*
             setTimeout(function(){
@@ -81,6 +95,7 @@
             // this.field.setActiveUnit(currentTurn.unit_id);
             this.runAction(data.action);
 
+            return;
             if (currentTurn.isMine() && currentTurn.id === data.id) {
                 this.pane.startMyTurn(currentTurn);
             }
@@ -89,9 +104,10 @@
         initEvents() {
             this.canvas.addEventListener('mousedown', event => {
                 let coords = {
-                    x: event.x,
-                    y: event.y
+                    x: (event.x / cellSize ^ 0) - 1,
+                    y: (event.y / cellSize ^ 0) - 1
                 };
+                console.log(coords);
 
                 if (event.x < this.field._width && event.y < this.field._height) {
                     let unit = this.field.clicked(event);
@@ -110,7 +126,6 @@
                             });
                         }
                     } else {
-                                console.log(activeUnit, activeUnit.isReachable());
                         if (activeUnit.isReachable(coords)) {
                             if (!this.debug) {
                                 this.ws.sendTurn({

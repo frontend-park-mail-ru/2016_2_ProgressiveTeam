@@ -2,7 +2,7 @@
     'use strict';
 
     // Погрешность
-    const error = 2;
+    const error = 5;
 
     let idCounter = 0;
 
@@ -29,9 +29,11 @@
         }
 
         update(obj, dt) {
+            dt = dt / 1000;
             if (this.run && !this.isFinished) {
-                if (this.isTimeOut || !Object.keys(this.properties).length) {
+                if (this.isTimeOut() || !Object.keys(this.properties).length) {
                     this.isFinished = true;
+                    console.log(this, obj);
                 }
 
                 Object.keys(this.properties).forEach(prop => {
@@ -47,7 +49,10 @@
         }
 
         isTimeOut() {
-            return Date.now() - this.startTime >= this.duration;
+            if (this.duration) {
+                return Date.now() - this.startTime >= this.duration;
+            }
+            return false;
         }
 
         get id() {

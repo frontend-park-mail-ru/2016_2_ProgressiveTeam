@@ -2,7 +2,7 @@
     'use strict';
 
     // Size of one field cell
-    const cellSize = 40;
+    const cellSize = 80;
 
 
     class AnimatedObject {
@@ -29,25 +29,30 @@
 
                 if (this.animation.isFinished) {
                     // In case of movement needs to set new coords
-                    if (this.animation.finishstate.x) {
-                        this.x = this._getcoordfromraw(this.animation.finishstate.x);
+                    console.log(this);
+                    if (this.animation.finishState.rawX) {
+                        console.log(this._getCoordFromRaw(this.animation.finishState.rawX));
+
+                        this.x = this._getCoordFromRaw(this.animation.finishState.rawX);
                     }
-                    if (this.animation.finishstate.y) {
-                        this.y = this._getcoordfromraw(this.animation.finishstate.y);
+                    if (this.animation.finishState.rawY) {
+                        this.y = this._getCoordFromRaw(this.animation.finishState.rawY);
                     }
+
+                    this.animation = undefined;
                 }
             }
         }
 
         /* Set animation and starts animation */
         runAnimation(animation) {
-            if (animation.finishstate.x) {
-                animation.finishstate.rawX = this._getRawCoord(animation.finishstate.x);
-                delete animation.finishstate.x;
+            if (animation.finishState.x) {
+                animation.finishState.rawX = this._getRawCoord(animation.finishState.x);
+                delete animation.finishState.x;
             }
-            if (animation.finishstate.y) {
-                animation.finishstate.rawY = this._getRawCoord(animation.finishstate.y);
-                delete animation.finishstate.y;
+            if (animation.finishState.y) {
+                animation.finishState.rawY = this._getRawCoord(animation.finishState.y);
+                delete animation.finishState.y;
             }
 
             this.animation = animation.run();
@@ -59,7 +64,7 @@
         }
 
         _getCoordFromRaw(rawCoord) {
-            return rawCoord / cellSize ^ 0;
+            return (rawCoord / cellSize ^ 0);
         }
     }
 

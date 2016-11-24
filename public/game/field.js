@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const fieldElemWidth = 80;
+    const cellSize = window.cellSize;
 
     class Field {
         constructor({ x = 0, y = 0, count_x = 0, count_y = 0 }) {
@@ -14,13 +14,12 @@
             this.backgoundColor = "rgba(255, 255, 255, 0.8)";
             this.gridColor = '#616161';
 
-            this.fieldElemWidth = fieldElemWidth;
             this.init();
         }
 
         init() {
-            this._width = this.count_x * this.fieldElemWidth;
-            this._height = this.count_y * this.fieldElemWidth;
+            this._width = this.count_x * cellSize;
+            this._height = this.count_y * cellSize;
 
             this.map = new Array(this.count_x)
                 .fill()
@@ -59,11 +58,11 @@
             ctx.fill();
             ctx.strokeStyle = this.gridColor;
             ctx.lineWidth = 1;
-            for (let i = 0; i < this._width; i += this.fieldElemWidth) {
+            for (let i = 0; i < this._width; i += cellSize) {
                 ctx.moveTo(i + 0.5, 0.5);
                 ctx.lineTo(i + 0.5, this._height + 0.5);
             }
-            for (let j = 0; j < this._height; j += this.fieldElemWidth) {
+            for (let j = 0; j < this._height; j += cellSize) {
                 ctx.moveTo(0.5, j + 0.5);
                 ctx.lineTo(this._width + 0.5, j + 0.5);
             }
@@ -92,8 +91,9 @@
 
 
         clicked(event) {
-            let x = parseInt(event.x / this.fieldElemWidth, 10) - 1;
-            let y = parseInt(event.y / this.fieldElemWidth, 10) - 1;
+            console.log(event.x / cellSize, cellSize);
+            let x = parseInt(event.x / cellSize, 10) + 1;
+            let y = parseInt(event.y / cellSize, 10) + 1;
             return this.map[x][y];
         }
 
@@ -119,7 +119,6 @@
     }
 
     // export
-    window.fieldElemWidth = fieldElemWidth;
     window.Field = Field;
 
 })();
