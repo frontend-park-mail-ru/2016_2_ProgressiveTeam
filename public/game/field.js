@@ -21,13 +21,20 @@
             this._width = this.count_x * cellSize;
             this._height = this.count_y * cellSize;
 
-            this.map = new Array(this.count_x)
-                .fill()
-                .map(() => new Array(this.count_y));
+            this.clearMap();
         }
 
         update(dt) {
 
+        }
+
+        updateUnits(unit_list) {
+            clearMap();
+            unit_list.forEach(unit => {
+                if (unit.x < this.count_x && unit.y < this.count_y) {
+                    this.map[unit.x][unit.y] = unit;
+                }
+            });
         }
 
         addUnits(unit_list) {
@@ -38,13 +45,19 @@
             });
         }
 
+        clearMap() {
+            this.map = new Array(this.count_x)
+                .fill()
+                .map(() => new Array(this.count_y));
+        }
+
         /**
          * Get units position to initialize game
          */
         getPosition() {
             let position_list = [];
             this.map.forEach(l => l.forEach(unit => {
-                position_list.append({
+                position_list.push({
                     type: unit.type,
                     coords: unit.coord
                 }); 

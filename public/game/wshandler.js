@@ -2,7 +2,7 @@
     'use strict';
 
     class WSHandler {
-       
+
         constructor(message_func, address = 'wss://progressive-team-backend.herokuapp.com/game') {
             this.ws = new WebSocket(address);
             this.ws.onopen = this.open;

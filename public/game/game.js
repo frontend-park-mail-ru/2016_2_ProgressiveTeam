@@ -10,24 +10,16 @@
     const cellSize = window.cellSize;
 
     class Game {
-        constructor({canvas, width, height}, debug = true) {
+        constructor({canvas, width, height}, debug = false, test = true) {
             this.canvas = canvas;
             this.ctx = canvas.getContext('2d');
             this.width = width;
             this.height = height;
 
+            this.test = test;
             this.debug = debug;
             if (!debug) {
                 this.ws = new WSHandler(this.newTurn.bind(this));
-            } else {
-                let ntf = this.newTurn.bind(this);
-                this.ws = {
-                    data: null,
-                    sendPosition: positions => {
-                        return newTurn(this.data);
-                    },
-                    newTurn: ntf
-                };
             }
 
             this.timeline = new TimeLine();
@@ -37,11 +29,11 @@
                 count_x: 10,
                 count_y: 6
             });
-            this.field.addUnits([
-                new Unit({ id: 1, x: 1, y: 1 }),
-                new Unit({ id: 2, x: 3, y: 4 }),
-            ]);
             if (debug) {
+                this.field.addUnits([
+                    new Unit({ id: 1, x: 1, y: 1 }),
+                    new Unit({ id: 2, x: 3, y: 4 }),
+                ]);
                 this.field.setActiveUnit(1);
             }
 
@@ -52,6 +44,7 @@
 
         start() {
             this.active = true;
+            this.ready = false;
 
             if (this.debug) {
                 let unit = this.field.clicked({ x: 1, y: 1 });
@@ -61,41 +54,41 @@
                 }, {
                     x: 2
                 }));
-
-                console.log(unit);
-
             }
-            // Stop animation during developing
-            /*
-            setTimeout(function(){
-                this.active = false;
-            }.bind(this), 2000);
-            */
 
             this.renderLoop();
         }
 
-        ready() {
-            this.ws.sendPosition(this.field.getPosition());
+        clientReady() {
+            this.ws.sendData(this.field.getPosition());
+            this.field.clearMap();
+            console.log('Waiting for opponent');
 
             // Show animation to wait for opponent
-            this.pane.toggleWaitOpponentAnim();
+            // this.pane.toggleWaitOpponentAnim();
         }
 
         /**
          * New turn
          */
         newTurn(data) {
+            console.log('New turn');
+            console.log(data);
             this.pane.toggleWaitOpponentAnim();
 
             this.timeline.update(data.timeline);
-            let currentTurn = this.timeline.pop();
+            this.currentTurn = this.timeline.pop();
 
-            // this.field.setActiveUnit(currentTurn.unit_id);
-            console.log('Coords', data);
+            if (!debug) {
+                this.field.updateUnits(data.units);
+
+                this.field.setActiveUnit(this.currentTurn.unit_id);
+            }
+
             this.runAction(data.action);
+        }
 
-            return;
+        animationFinished() {
             if (currentTurn.isMine() && currentTurn.id === data.id) {
                 this.pane.startMyTurn(currentTurn);
             }
@@ -112,6 +105,16 @@
                 if (event.x < this.field._width + cellSize && event.y < this.field._height + cellSize) {
                     let unit = this.field.clicked(coords);
                     let activeUnit = this.field.getActiveUnit();
+
+                    if (!this.ready) {
+                        if (!unit) {
+                            this.field.addUnits([
+                                new Unit({ x: coords.x, y: coords.y }),
+                            ]);
+                        }
+                        return;
+                    }
+
 
                     if (unit && unit.isEnemy()) {
                         // currentUnit is going to attack unit
@@ -145,6 +148,13 @@
                     }
                 }
             });
+
+            document.addEventListener('keydown', (type, event) => {
+                if (type.key == 'Enter') {
+                    this.ready = true;
+                    this.clientReady();
+                }
+            });
         }
 
         isActive() {
@@ -160,7 +170,7 @@
             let time,
                 isActive = this.isActive.bind(this),
                 exec = this.exec.bind(this);
-            
+
             function step() {
                 let now = Date.now(),
                     dt = now - (time || now);
@@ -179,13 +189,15 @@
 
         exec(dt) {
             let activeUnit = this.field.getActiveUnit();
-            activeUnit.update(dt);
+            if (activeUnit) {
+                activeUnit.update(dt);
+            }
 
             this.renderAll();
         }
 
         renderAll() {
-            this.field.draw(this.ctx); 
+            this.field.draw(this.ctx);
         }
     }
 
