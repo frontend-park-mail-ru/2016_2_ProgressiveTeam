@@ -34,19 +34,21 @@
             switch (action.type) {
                 case 'move':
                     let properties = {};
+                    let speed = 150;
 
                     if (action.coords.x > this.x) {
-                        properties['rawX'] = 200;
+                        properties['rawX'] = speed;
                     } else if (action.coords.x < this.x) {
-                        properties['rawX'] = -200;
+                        properties['rawX'] = -speed;
                     }
 
                     if (action.coords.y > this.y) {
-                        properties['rawY'] = 200;
+                        properties['rawY'] = speed;
                     } else if (action.coords.y < this.y) {
-                        properties['rawY'] = -200;
+                        properties['rawY'] = -speed;
                     }
                     let animation = new Animation('move', properties, action.coords);
+                    console.log(animation);
                     this.runAnimation(animation);
 
                     break;

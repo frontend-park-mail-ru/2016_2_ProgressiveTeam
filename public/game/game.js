@@ -109,7 +109,7 @@
                 };
                 console.log(coords);
 
-                if (event.x < this.field._width && event.y < this.field._height) {
+                if (event.x < this.field._width + cellSize && event.y < this.field._height + cellSize) {
                     let unit = this.field.clicked(coords);
                     let activeUnit = this.field.getActiveUnit();
 
