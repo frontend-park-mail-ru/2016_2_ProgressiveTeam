@@ -91,10 +91,7 @@
 
 
         clicked(event) {
-            console.log(event.x / cellSize, cellSize);
-            let x = parseInt(event.x / cellSize, 10) + 1;
-            let y = parseInt(event.y / cellSize, 10) + 1;
-            return this.map[x][y];
+            return this.map[event.x][event.y];
         }
 
         getCellToMove(event) {

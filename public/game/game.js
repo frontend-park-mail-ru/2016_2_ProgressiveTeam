@@ -86,13 +86,13 @@
          * New turn
          */
         newTurn(data) {
-            console.log(data);
             this.pane.toggleWaitOpponentAnim();
 
             this.timeline.update(data.timeline);
             let currentTurn = this.timeline.pop();
 
             // this.field.setActiveUnit(currentTurn.unit_id);
+            console.log('Coords', data);
             this.runAction(data.action);
 
             return;
@@ -110,7 +110,7 @@
                 console.log(coords);
 
                 if (event.x < this.field._width && event.y < this.field._height) {
-                    let unit = this.field.clicked(event);
+                    let unit = this.field.clicked(coords);
                     let activeUnit = this.field.getActiveUnit();
 
                     if (unit && unit.isEnemy()) {
@@ -133,12 +133,13 @@
                                     coords
                                 });
                             } else {
-                                this.newTurn({
-                                    action: {
+                                let data = {
+                                    'action': {
                                         type: 'move',
-                                        coords
+                                        coords: {x: coords.x, y: coords.y}
                                     }
-                                });
+                                };
+                                this.newTurn(data);
                             }
                         }
                     }

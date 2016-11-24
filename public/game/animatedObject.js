@@ -29,13 +29,10 @@
 
                 if (this.animation.isFinished) {
                     // In case of movement needs to set new coords
-                    console.log(this);
-                    if (this.animation.finishState.rawX) {
-                        console.log(this._getCoordFromRaw(this.animation.finishState.rawX));
-
+                    if (this.animation.finishState.rawX !== undefined) {
                         this.x = this._getCoordFromRaw(this.animation.finishState.rawX);
                     }
-                    if (this.animation.finishState.rawY) {
+                    if (this.animation.finishState.rawY !== undefined) {
                         this.y = this._getCoordFromRaw(this.animation.finishState.rawY);
                     }
 
@@ -46,11 +43,11 @@
 
         /* Set animation and starts animation */
         runAnimation(animation) {
-            if (animation.finishState.x) {
+            if (animation.finishState.x !== undefined) {
                 animation.finishState.rawX = this._getRawCoord(animation.finishState.x);
                 delete animation.finishState.x;
             }
-            if (animation.finishState.y) {
+            if (animation.finishState.y !== undefined) {
                 animation.finishState.rawY = this._getRawCoord(animation.finishState.y);
                 delete animation.finishState.y;
             }
@@ -64,6 +61,8 @@
         }
 
         _getCoordFromRaw(rawCoord) {
+            if (rawCoord < cellSize)
+                return 0;
             return (rawCoord / cellSize ^ 0);
         }
     }
