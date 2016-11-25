@@ -29,9 +29,11 @@
                 event.preventDefault();
                 if (form.isValid()) {
                     let data = form.getFormData()
-                    currentUser.login = data.login;
-                    currentUser.email = data.email;
-                    currentUser.password = data.password;
+                    currentUser.attributes = {
+                        login: data.login,
+                        email: data.email,
+                        password: data.password
+                    };
                     currentUser.register();
                 }
             });

@@ -18,22 +18,25 @@
             return this.has_auth;
         }
 
-        auth() {
+        auth(silent = false) {
             request('POST', '/session', {
-                login: this.login,
-                password: this.password
+                login: this.attributes.login,
+                password: this.attributes.password
             }).then(data => {
                     console.log(data);
                     if (!data.error) {
                         localStorage.setItem('user_data', JSON.stringify({
-                            'id': this.id,
-                            'login': this.login,
-                            'email': this.email
+                            'id': this.attributes.id,
+                            'login': this.attributes.login,
+                            'email': this.attributes.email,
+                            'password': this.attributes.password
                         }));
                         this.has_auth = true;
-                        (new Router).go('/');
+                        if (!silent) (new Router).go('/');
                     }
-                });
+            }).catch(error => {
+                console.log(error);
+            });
         }
 
         logout() {
@@ -50,9 +53,9 @@
 
         register() {
             request('POST', '/user', {
-                login: this.login,
-                email: this.email,
-                password: this.password
+                login: this.attributes.login,
+                email: this.attributes.email,
+                password: this.attributes.password
             }).then(data => {
                 if (data === {}) {
                     this.auth();
@@ -67,7 +70,9 @@
         static getCurrentUser() {
             let local_data = localStorage.user_data;
             if (local_data) {
-                return new CurrentUser(JSON.parse(local_data), true);
+                let user = new CurrentUser(JSON.parse(local_data), true);
+                user.auth(true);
+                return user;
             }
             let data = request('GET', '/session', {}, false);
             if (!data.error) {

@@ -28,8 +28,10 @@
                 event.preventDefault();
                 if (form.isValid()) {
                     let data = form.getFormData()
-                    currentUser.login = data.login;
-                    currentUser.password = data.password;
+                    currentUser.attributes = {
+                        login: data.login,
+                        password: data.password
+                    };
                     currentUser.auth();
                 }
             });

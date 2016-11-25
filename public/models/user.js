@@ -12,7 +12,7 @@
 
 		get defaults() {
 			return {
-				name: '',
+				login: '',
 				email: ''
 			}
 		}

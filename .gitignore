@@ -2,3 +2,4 @@ node_modules/
 public/api
 public/coverage/
 *.log
+.sass-cache/
