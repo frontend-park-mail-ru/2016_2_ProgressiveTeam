@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const Notification = window.Notification;
+
     let ip = 'https://progressive-team-backend.herokuapp.com/api';
     // let ip = '';
 
@@ -32,14 +34,23 @@
                         if (xhr.status === 200) {
                             resolve(xhr.responseText);
                         } else {
-                            reject();
+                            reject(xhr);
                         }
                     }
                 }
 
                 xhr.send(JSON.stringify(data));
             }).then(response => {
+                console.log(response);
                 return JSON.parse(response);
+            }, error => {
+                if (error.responseText === "") {
+                    let notification = new Notification({
+                        text: 'No server connection'
+                    });
+                    console.log(notification);
+                    document.body.appendChild(notification.getDomElement());
+                }
             });
         }
 
