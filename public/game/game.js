@@ -10,7 +10,7 @@
     const cellSize = window.cellSize;
 
     class Game {
-        constructor({canvas, width, height}, debug = false, test = true) {
+        constructor({canvas, width, height}, debug = true, test = true) {
             this.canvas = canvas;
             this.ctx = canvas.getContext('2d');
             this.width = width;
@@ -47,6 +47,8 @@
             this.ready = false;
 
             if (this.debug) {
+                this.ready = true;
+
                 let unit = this.field.clicked({ x: 1, y: 1 });
 
                 unit.runAnimation(new Animation('move', {
@@ -79,7 +81,7 @@
             this.timeline.update(data.timeline);
             this.currentTurn = this.timeline.pop();
 
-            if (!debug) {
+            if (!this.debug) {
                 this.field.updateUnits(data.units);
 
                 this.field.setActiveUnit(this.currentTurn.unit_id);
