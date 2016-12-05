@@ -31,7 +31,7 @@
         loadData(params = {}) {
             return request('GET', (new this.model).url, params)
                 .then(data => {
-                    this.setData(data);
+                    this.setData(data['users']);
                 });
         }
 

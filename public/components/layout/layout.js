@@ -9,7 +9,9 @@
             super('div', options);
             this.template = window.fest['layout/layout.tmpl'];
 
-            this._el = options.el;
+            this._el = options.el || this._el;
+            this.createInner = Boolean(options.el);
+
             this.orientation = 'layout__object_' + options.orientation || 'horizontal';
 
             this.objects = options.objects || [];
@@ -40,7 +42,7 @@
          * Обновляем HTML элемента
          */
         _updateHtml() {
-            let layout_wrapper = document.createElement('div');
+            let layout_wrapper = this.createInner ? document.createElement('div') : this._el;
             layout_wrapper.className = 'layout';
 
             this.objects.forEach(obj => {
@@ -51,8 +53,10 @@
                 layout_wrapper.appendChild(layout_obj);
             });
 
-            this._el.innerHTML = '';
-            this._el.append(layout_wrapper);
+            if (this.createInner) {
+                this._el.innerHTML = '';
+                this._el.append(layout_wrapper);
+            }
         }
     }
 

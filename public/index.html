@@ -4,14 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
-  <link rel="stylesheet" href="/css/milligram.min.css" />
   <link rel="stylesheet" href="/css/main.css" />
-
-  <link rel="stylesheet" href="/components/button/button.css" />
-  <link rel="stylesheet" href="/components/chat/chat.css" />
-  <link rel="stylesheet" href="/components/form/form.css" />
-  <link rel="stylesheet" href="/components/menu/menu.css" />
-  <link rel="stylesheet" href="/components/layout/layout.css" />
 </head>
 
 <body>
@@ -19,11 +12,15 @@
     <div class="js-main" hidden></div>
     <div class="js-login" hidden></div>
     <div class="js-signup" hidden></div>
-    <div class="js-chat" hidden></div>
     <div class="js-user-list" hidden></div>
+    <div class="js-game" hidden="hidden">
+      <canvas class="js-canvas"></canvas>
+    </div>
   </div>
 
+  <script src="/modules/swLoader.js"></script>
   <script src="/libs/technolibs/index.js"></script>
+  <script src="/modules/notification.js"></script>
   <script src="/modules/request.js"></script>
   <script src="/modules/pathToRegex.js"></script>
   <script src="/modules/getCookie.js"></script>
@@ -39,24 +36,35 @@
   <script src="/auth/authenticate.js"></script>
 
   <script src="/components/block/block.js"></script>
+  <script src="/components/container/container.js"></script>
   <script src="/components/button/button.js"></script>
+  <script src="/components/notification/notification.js"></script>
   <script src="/components/link_button/link_button.js"></script>
   <script src="/components/form/form.tmpl.js"></script>
   <script src="/components/form/form.js"></script>
   <script src="/components/form/form.factory.js"></script>
-  <script src="/components/chat/chat.tmpl.js"></script>
-  <script src="/components/chat/chat.js"></script>
   <script src="/components/menu/menu.js"></script>
   <script src="/components/menu/menu.tmpl.js"></script>
   <script src="/components/item_list/item_list.js"></script>
-  <script src="/components/item_list/item_list.tmpl.js"></script>
   <script src="/components/layout/layout.js"></script>
+  <script src="/components/user_list/user_list.js"></script>
+  <script src="/components/user_list/user_list.tmpl.js"></script>
+
+  <script src="/game/animation.js"></script>
+  <script src="/game/animatedObject.js"></script>
+  <script src="/game/field.js"></script>
+  <script src="/game/unit.js"></script>
+  <script src="/game/timeline.js"></script>
+  <script src="/game/pane.js"></script>
+  <script src="/game/wshandler.js"></script>
+  <script src="/game/game.js"></script>
 
   <script src="/views/main.js"></script>
-  <script src="/views/chat.js"></script>
   <script src="/views/login.js"></script>
+  <script src="/views/logout.js"></script>
   <script src="/views/signup.js"></script>
   <script src="/views/user_list.js"></script>
+  <script src="/views/game.js"></script>
 
   <script src="main.js"></script>
 </body>

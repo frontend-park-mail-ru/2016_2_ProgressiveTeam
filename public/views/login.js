@@ -5,6 +5,7 @@
 
     const View = window.View;
     const FormFactory = window.FormFactory;
+    const Container = window.Container;
     const Router = window.Router;
 
     class LoginView extends View {
@@ -15,11 +16,26 @@
         }
 
         init(options = {}) {
-            this._component = FormFactory.createLoginForm(this._el);
+            let form = FormFactory.createLoginForm(document.createElement('div'));
 
-            this._component.on('submit', event => {
-                event.preventDefault();
+            this._component = new Container({
+                el: this._el,
+                classes: ['container_small ', 'container_center']
             });
+            this._component.append(form);
+
+            form.on('submit', event => {
+                event.preventDefault();
+                if (form.isValid()) {
+                    let data = form.getFormData()
+                    currentUser.attributes = {
+                        login: data.login,
+                        password: data.password
+                    };
+                    currentUser.auth();
+                }
+            });
+            form.render();
         }
 
         resume(options = {}) {
@@ -28,8 +44,8 @@
                 return;
             }
 
-            this._component.render();
             this.show();
+            this._component.render();
         }
 
         get title() {

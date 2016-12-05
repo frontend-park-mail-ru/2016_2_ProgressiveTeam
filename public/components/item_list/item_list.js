@@ -2,18 +2,15 @@
 	'use strict';
 
 	// import
-	const Block = window.Block;
+    const Block = window.Block;
     const User = window.User;
     const Collection = window.Collection;
 
 	class ItemList extends Block {
 
-		/**
-		 * Конструктор класса Chat
-		 */
-		constructor({el, Model, data = {}}) {
+		constructor({el, Model, template, data = {}}) {
 			super('div');
-			this.template = window.fest['item_list/item_list.tmpl'];
+			this.template = template;
 
             this.collection = new Collection(Model);
             this.Model = Model;

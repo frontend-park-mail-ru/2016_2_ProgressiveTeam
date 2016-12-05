@@ -1,0 +1,31 @@
+.container {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 1200px;
+  background-color: #FFF;
+  padding: 1rem;
+  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.container_small {
+  max-width: 350px;
+}
+
+.container_middle {
+  max-width: 650px;
+}
+
+.container_large {
+  max-width: 950px;
+}
+
+.container_center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.container_no-background {
+  background: none;
+  box-shadow: none;
+}
